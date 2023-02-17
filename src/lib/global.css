@@ -1,0 +1,8 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.home-jumbotron {
+    background: rgb(121, 65, 217);
+    background: linear-gradient(90deg, rgba(121, 65, 217, 1) 0%, rgba(1, 115, 123, 1) 100%);
+}
