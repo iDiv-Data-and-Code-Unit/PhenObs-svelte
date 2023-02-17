@@ -19,6 +19,6 @@
     <slot />
   </div>
   {#if $page.url.pathname !== '/imprint'}
-    <div class="justify-center flex my-10"><a href="/imprint">Imprint</a></div>
+    <div class="justify-center flex py-10"><a href="/imprint">Imprint</a></div>
   {/if}
 </div>

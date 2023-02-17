@@ -4,10 +4,9 @@
 
   export let status = true;
   let toggleDropdown = false;
-  console.log($page.url.pathname);
 </script>
 
-<div class="navbar rounded-lg grid grid-flow-row auto-rows-max p-1 dark:bg-slate-800 shadow-xl">
+<div class="navbar rounded-lg grid grid-flow-row auto-rows-max p-1 dark:bg-slate-800 shadow-lg">
   <div class="p-1">
     <div class="justify-between flex w-full">
       <div class="dropdown md:hidden">
@@ -49,7 +48,10 @@
               <a>Observations</a>
             </li>
             <li class="hidden lg:flex z-50">
-              <div class="w-40 justify-center">
+              <div
+                class="w-40 justify-center"
+                class:active={$page.url.pathname.includes('/observations')}
+              >
                 Observations
                 <svg
                   class="fill-current"
@@ -60,7 +62,7 @@
                   ><path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" /></svg
                 >
               </div>
-              <ul class="w-40 shadow-lg dark:bg-slate-800 p-2 bg-base-100">
+              <ul class="w-40 shadow-lg dark:bg-slate-800 p-2 bg-base-100 gap-1">
                 <li>
                   <a
                     class="text-warning"
