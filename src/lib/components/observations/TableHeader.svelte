@@ -1,6 +1,6 @@
-<div class="flex flex-wrap justify-between items-center">
-  <h1 class="md:text-4xl text-xl font-semibold">Jena collections</h1>
-  <div class="flex gap-3">
+<div class="flex flex-wrap justify-between items-center gap-2">
+  <h1 class="text-4xl font-semibold my-2"><span class="break-all">Jena</span> collections</h1>
+  <div class="flex gap-3 my-2">
     <button class="btn btn-secondary btn-outline gap-2"
       ><svg
         xmlns="http://www.w3.org/2000/svg"
@@ -24,7 +24,7 @@
         />
       </svg><span class="hidden md:block">Get collections</span></button
     >
-    <button class="btn btn-secondary btn-outline gap-2"
+    <a class="btn btn-secondary btn-outline gap-2" href="/observations/add"
       ><svg
         xmlns="http://www.w3.org/2000/svg"
         width="16"
@@ -36,7 +36,7 @@
         <path
           d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"
         />
-      </svg><span class="hidden md:block">Add collection</span></button
+      </svg><span class="hidden md:block" >Add collection</span></a
     >
   </div>
 </div>

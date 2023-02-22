@@ -6,3 +6,17 @@
     background: rgb(121, 65, 217);
     background: linear-gradient(90deg, rgba(121, 65, 217, 1) 0%, rgba(1, 115, 123, 1) 100%);
 }
+
+/* Open datepicker on any click on the component (not just the calendar icon) */
+input[type="date"]::-webkit-calendar-picker-indicator {
+    background: transparent;
+    bottom: 0;
+    color: transparent;
+    cursor: pointer;
+    height: auto;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: auto;
+}

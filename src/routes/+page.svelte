@@ -21,8 +21,9 @@
 <div
   class="mt-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-none md:grid-flow-col md:auto-cols-min gap-3"
 >
-  <button
+  <a
     class="btn btn-lg btn-outline btn-warning lg:w-96 md:w-80 py-14 content-center gap-2 dark:border-0 dark:bg-slate-800"
+    href="/observations"
   >
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -37,9 +38,10 @@
       />
     </svg>
     Local obserations
-  </button>
-  <button
+  </a>
+  <a
     class="btn btn-lg btn-outline btn-secondary lg:w-96 md:w-80 py-14 content-center gap-2 dark:border-0 dark:bg-slate-800"
+    href="/observations/add"
   >
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -54,5 +56,5 @@
       />
     </svg>
     Add collection
-  </button>
+  </a>
 </div>

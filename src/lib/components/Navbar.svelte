@@ -45,7 +45,7 @@
             <li><a class:active={$page.url.pathname === '/'} href="/">Home</a></li>
 
             <li class="lg:hidden" class:active={$page.url.pathname === '/observations'}>
-              <a>Observations</a>
+              <a href="/observations">Observations</a>
             </li>
             <li class="hidden lg:flex z-50">
               <div

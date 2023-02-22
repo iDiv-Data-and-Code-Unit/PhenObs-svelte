@@ -1,7 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: 'class',
-  content: ['./src/**/*.{html,js,svelte,ts}'],
+  content: ['./src/**/*.{html,js,svelte,ts}', ],
   daisyui: {
     themes: [{
       light: {
@@ -20,7 +20,7 @@ module.exports = {
         "primary": "#334155",
         "secondary": "#007BFF",
         "accent": "#37CDBE",
-        "neutral": "#3D4451", 
+        "neutral": "#3D4451",
         "info": "#3ABFF8",
         "success": "#28A745",
         "warning": "#FF9800",
@@ -29,6 +29,6 @@ module.exports = {
     }, ],
   },
   plugins: [
-    require('daisyui')
+    require('daisyui'),
   ],
 }
