@@ -5,6 +5,7 @@
 </script>
 
 <button class="btn btn-secondary btn-outline flex md:gap-10 gap-5 lg:py-14 py-10 content-center justify-center text-xl relative">
+  <!-- <span class="badge badge-secondary border-0 content-center absolute bottom-2 right-2 ">Online</span> -->
   <p>{dateStrFormatted}</p>
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -22,5 +23,6 @@
     type="date"
     class="w-full absolute bottom-0 h-full opacity-0"
     bind:value={dateStr}
+    required
   /></button
 >

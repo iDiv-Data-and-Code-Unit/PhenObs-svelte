@@ -1,6 +1,6 @@
 <script lang="ts">
-  import Table from '$lib/components/observations/Table.svelte';
-  import TableHeader from '$lib/components/observations/TableHeader.svelte';
+  import Table from '$lib/components/observations/table/Table.svelte';
+  import TableHeader from '$lib/components/observations/table/TableHeader.svelte';
 </script>
 
 <div class="container rounded-lg mt-5 shadow-lg md:p-10 p-5 dark:bg-slate-800">
