@@ -10,17 +10,14 @@
   };
 </script>
 
-<div class="lg:col-span-2 gap-1 flex">
-  <button
-    class="btn btn-outline text-warning hover:text-white hover:btn-warning bg-warning/20"
-    on:click={() => (sortNumeric = !sortNumeric)}
-  >
+<div class="lg:col-span-2 md:col-span-3 gap-1 flex">
+  <button class="btn btn-warning" on:click|preventDefault={() => (sortNumeric = !sortNumeric)}>
     {#if sortNumeric}
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="24"
-            height="24"
-            fill="currentColor"
+        height="24"
+        fill="currentColor"
         class="bi bi-sort-alpha-down"
         viewBox="0 0 16 16"
       >
@@ -37,6 +34,7 @@
         xmlns="http://www.w3.org/2000/svg"
         width="24"
         height="24"
+        fill="currentColor"
         class="bi bi-sort-numeric-down"
         viewBox="0 0 16 16"
       >
@@ -51,9 +49,11 @@
       </svg>
     {/if}
   </button>
-  <div class="btn p-0 text-xl btn-outline btn-warning gap-1 relative grow bg-warning/20">
+  <div class="btn p-0 text-xl btn-warning gap-1 relative grow no-animation">
     <div class="grid grid-flow-col gap-2 xl:gap-5 font-bold items-center w-full">
-      <p class="font-semibold truncate whitespace-nowrap overflow-hidden break-all relative text-black text-xl">
+      <p
+        class="font-semibold truncate whitespace-nowrap overflow-hidden break-all relative text-black text-xl"
+      >
         {selectedPlantName}
       </p>
       <svg

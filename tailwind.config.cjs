@@ -26,7 +26,8 @@ module.exports = {
         "warning": "#FF9800",
         "error": "#FF0000",
       },
-    }, ],
+
+    }],
   },
   plugins: [
     require('daisyui'),

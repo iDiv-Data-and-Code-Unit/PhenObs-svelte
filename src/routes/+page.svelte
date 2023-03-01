@@ -2,7 +2,7 @@
   import { formatDate } from '../lib/app';
 </script>
 
-<div class="card mt-5 dark:bg-slate-800 dark:text-base xl:p-8 lg:p-6 md:p-5 sm:p-4 z-0">
+<div class="card mt-5 dark:bg-white dark:bg-opacity-10 dark:text-base xl:p-8 lg:p-6 md:p-5 sm:p-4 z-0">
   <div class="card-body">
     <h1 class="card-title xl:text-7xl md:text-6xl text-4xl flex-wrap">
       <!-- TODO: dynamically get Garden: Subgarden name -->
@@ -22,7 +22,7 @@
   class="mt-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-none md:grid-flow-col md:auto-cols-min gap-3"
 >
   <a
-    class="btn btn-lg btn-outline btn-warning lg:w-96 md:w-80 py-14 content-center gap-2 dark:border-0 dark:bg-slate-800"
+    class="btn btn-lg btn-outline btn-warning lg:w-96 md:w-80 py-14 content-center gap-2 dark:border-0 dark:bg-white dark:bg-opacity-10"
     href="/observations"
   >
     <svg
@@ -40,7 +40,7 @@
     Local obserations
   </a>
   <a
-    class="btn btn-lg btn-outline btn-secondary lg:w-96 md:w-80 py-14 content-center gap-2 dark:border-0 dark:bg-slate-800"
+    class="btn btn-lg btn-outline btn-secondary lg:w-96 md:w-80 py-14 content-center gap-2 dark:border-0 dark:bg-white dark:bg-opacity-10"
     href="/observations/add"
   >
     <svg

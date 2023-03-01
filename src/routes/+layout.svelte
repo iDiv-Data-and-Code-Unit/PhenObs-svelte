@@ -1,16 +1,13 @@
 <script lang="ts">
   import '$lib/global.css';
-  import { onMount } from 'svelte';
   import { page } from '$app/stores';
 
   import Navbar from '$lib/components/Navbar.svelte';
 
-  let status = true;
-  onMount(async () => {
-    window.addEventListener('online', () => (status = true));
-    window.addEventListener('offline', () => (status = false));
-  });
+  let status: boolean;
 </script>
+
+<svelte:window bind:online={status} />
 
 <!-- TODO: Check and display only if authenticated -->
 <div class="container mx-auto h-screen">

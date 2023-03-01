@@ -6,7 +6,7 @@
   let toggleDropdown = false;
 </script>
 
-<div class="navbar rounded-lg grid grid-flow-row auto-rows-max p-1 dark:bg-slate-800 shadow-lg">
+<div class="navbar rounded-lg grid grid-flow-row auto-rows-max p-1 dark:bg-white dark:bg-opacity-10 shadow-lg">
   <div class="p-1">
     <div class="justify-between flex w-full">
       <div class="dropdown md:hidden">

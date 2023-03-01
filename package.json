@@ -38,6 +38,7 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"daisyui": "^2.50.1"
+		"daisyui": "^2.50.1",
+		"localtunnel": "^2.0.2"
 	}
 }

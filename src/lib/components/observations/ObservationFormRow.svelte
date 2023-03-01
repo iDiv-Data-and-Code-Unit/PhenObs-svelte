@@ -1,8 +1,9 @@
 <script lang="ts">
+  import { toCamelCase } from '$lib/app';
   export let label: string;
 </script>
 
-<div class="grid grid-cols-none lg:grid-cols-4 lg:gap-4 gap-2 mt-5 w-full items-center">
-  <label for="plant" class="md:text-xl">{label}</label>
+<div class="grid grid-cols-none md:grid-cols-4 gap-2 md:gap-3 lg:gap-5 mt-5 items-center">
+  <label for={toCamelCase(label)} class="md:text-xl md:col-span-4 lg:col-span-1">{label}</label>
   <slot />
 </div>
