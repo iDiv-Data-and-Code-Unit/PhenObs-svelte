@@ -13,7 +13,7 @@
     min="0"
     max="100"
     bind:value
-    class={`range grow range-warning ${disabled ? '' : 'bg-warning/20'}`}
+    class={`range grow ${disabled ? 'range-primary' : 'range-warning bg-warning/20'}`}
     disabled={disabled}
     {step}
   />
