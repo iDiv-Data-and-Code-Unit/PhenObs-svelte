@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { formatDate } from '$lib/app';
+  import { formatDate } from '$lib/shared/app';
   let dateStr: string = new Date().toISOString().split('T')[0];
   $: dateStrFormatted = formatDate(new Date(dateStr));
 </script>

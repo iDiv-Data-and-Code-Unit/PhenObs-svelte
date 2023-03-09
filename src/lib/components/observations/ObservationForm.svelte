@@ -5,7 +5,7 @@
   import ButtonGroup from './ButtonGroup.svelte';
   import Intensity from './Intensity.svelte';
   import Multiselect from './Multiselect.svelte';
-  import { toCamelCase } from '$lib/app';
+  import { toCamelCase } from '$lib/shared/app';
 
   let noObservation = false;
 

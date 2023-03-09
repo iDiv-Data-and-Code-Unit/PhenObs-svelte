@@ -8,10 +8,9 @@
 </script>
 
 <svelte:window bind:online={status} />
-
-<!-- TODO: Check and display only if authenticated -->
 <div class="container mx-auto h-screen">
   <div class="sm:p-5 p-2.5">
+    <!-- TODO: Check and display only if authenticated -->
     <Navbar {status} />
     <slot />
   </div>

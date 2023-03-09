@@ -67,7 +67,7 @@
     </div>
     <select
       id="plant"
-      class="col-span-2 w-full h-full opacity-1 absolute bottom-0 opacity-0 text-black"
+      class="col-span-2 w-full h-full absolute bottom-0 opacity-0 text-black"
       on:change={changeHandler}
     >
       <option disabled selected value />

@@ -1,10 +1,10 @@
 <script lang="ts">
   import { createTable, Subscribe, Render, createRender } from 'svelte-headless-table';
   import { addSortBy, addExpandedRows, addPagination } from 'svelte-headless-table/plugins';
-  import collections from '$lib/data';
+  import collections from '$lib/shared/data';
   import Status from './Status.svelte';
   import Actions from './Actions.svelte';
-  import { formatDate } from '$lib/app';
+  import { formatDate } from '$lib/shared/app';
 
   export let name: string;
 

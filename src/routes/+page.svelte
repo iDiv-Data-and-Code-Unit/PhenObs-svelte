@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { formatDate } from '../lib/app';
+  import { formatDate } from '../lib/shared/app';
 </script>
 
 <div class="card mt-5 dark:bg-white dark:bg-opacity-10 dark:text-base xl:p-8 lg:p-6 md:p-5 sm:p-4 z-0">
