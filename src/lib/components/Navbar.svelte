@@ -4,6 +4,13 @@
 
   export let status = true;
   let toggleDropdown = false;
+
+  const signOut = async () => {
+    const res = await fetch('http://127.0.0.1:8000/auth/logout', {
+      method: 'POST',
+      credentials: 'include'
+    });
+  };
 </script>
 
 <div class="navbar rounded-lg grid grid-flow-row auto-rows-max p-1 dark:bg-white dark:bg-opacity-10 shadow-lg">
@@ -89,7 +96,7 @@
         <ul class="menu menu-horizontal px-1 gap-1">
           <li><a class:active={$page.url.pathname === '/help'} href="/help">Help</a></li>
           <li>
-            <a class:active={$page.url.pathname === '/signout'} href="/signout">Sign Out</a>
+            <a class:active={$page.url.pathname === '/logout'} href="/logout">Sign Out</a>
           </li>
         </ul>
       </div>
@@ -109,7 +116,7 @@
         <li class=""><a href="/admin">Administration</a></li>
         <li class=""><a class:active={$page.url.pathname === '/help'} href="/help">Help</a></li>
         <li class="">
-          <a class:active={$page.url.pathname === '/signout'} href="/signout">Sign Out</a>
+          <a class:active={$page.url.pathname === '/logout'} href="/logout">Sign Out</a>
         </li>
       </ul>
     {/if}

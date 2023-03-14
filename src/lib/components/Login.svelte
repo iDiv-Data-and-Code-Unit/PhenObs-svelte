@@ -1,22 +1,34 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
+  import { goto } from '$app/navigation';
 
-  let username: string;
-  let password: string;
+  let username: string = 'user';
+  let password: string = 'QazxswedC123!';
+  export let displayLogin;
 
-  const logIn = async () => {
-    const request = await fetch('http://localhost:8000/auth/login/', {
-      method: 'POST',
-      credentials: 'omit',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json'
-      },
-      body: JSON.stringify({ username, password })
-    });
-    const data = await request.json();
-    console.log(data);
-  };
+  async function login() {
+    try {
+      const response = await fetch('http://127.0.0.1:8000/auth/login/', {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          username,
+          password
+        })
+      });
+
+      if (response.ok) {
+        displayLogin = false;
+        goto('/');
+      } else {
+        // Error logging in - handle error here
+      }
+    } catch (error) {
+      console.error('Error logging in:', error);
+    }
+  }
 </script>
 
 <div class="container">
@@ -44,6 +56,8 @@
               type="text"
               placeholder="username"
               class="input input-bordered"
+              name="username"
+              id="username"
               bind:value={username}
             />
           </div>
@@ -55,11 +69,13 @@
               type="password"
               placeholder="password"
               class="input input-bordered"
+              name="password"
+              id="password"
               bind:value={password}
             />
           </div>
           <div class="form-control mt-6">
-            <button class="btn btn-secondary" on:click={logIn}>Login</button>
+            <button class="btn btn-secondary" on:click={login}>Login</button>
           </div>
         </div>
       </div>
