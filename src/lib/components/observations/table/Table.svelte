@@ -1,14 +1,16 @@
 <script lang="ts">
   import { createTable, Subscribe, Render, createRender } from 'svelte-headless-table';
   import { addSortBy, addExpandedRows, addPagination } from 'svelte-headless-table/plugins';
-  import collections from '$lib/shared/data';
   import Status from './Status.svelte';
   import Actions from './Actions.svelte';
   import { formatDate } from '$lib/shared/app';
+  import type { CollectionType, StoredCollectionType } from '$lib/types';
+  import type { Writable } from 'svelte/store';
 
   export let name: string;
+  export let store: Writable<CollectionType[] | StoredCollectionType[]>;
 
-  const table = createTable(collections, {
+  const table = createTable(store, {
     page: addPagination({ initialPageSize: 5 }),
     sort: addSortBy({ disableMultiSort: true }),
     expand: addExpandedRows()
@@ -25,14 +27,14 @@
     }),
     table.column({
       header: 'Creator',
-      accessor: 'creator',
+      accessor: 'creator_username',
       plugins: {
         sort: { invert: true }
       }
     }),
     table.column({
       header: 'Subgarden',
-      accessor: 'garden-name',
+      accessor: 'subgarden_name',
       plugins: {
         sort: { invert: true }
       }

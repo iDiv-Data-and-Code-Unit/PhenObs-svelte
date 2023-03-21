@@ -1,8 +1,13 @@
 <script lang="ts">
+  import type { PageData } from './$types';
   import { onMount } from 'svelte';
+
   import Calendar from '$lib/components/observations/Calendar.svelte';
   import ObservationForm from '$lib/components/observations/ObservationForm.svelte';
 
+  import collectionsStore from '$lib/shared/collections';
+
+  export let data: PageData;
   let height: number;
   let y: number;
   let showBackToTop = false;
@@ -13,7 +18,15 @@
     document.body.scrollIntoView({ behavior: 'smooth' });
   };
 
-  onMount(() => (height = document.body.scrollHeight));
+  onMount(() => {
+    height = document.body.scrollHeight;
+    collectionsStore.update(items => {
+      const index = items.findIndex(item => item.id === data.id);
+      if (index === -1) {
+        items = [...items, {data, uploaded: true, edited: false}];
+      }
+    })
+  });
 </script>
 
 <svelte:window bind:scrollY={y} />
@@ -66,3 +79,7 @@
     </svg></button
   >
 </div>
+
+<svelte:head>
+  <title>PhenObs | Edit</title>
+</svelte:head>

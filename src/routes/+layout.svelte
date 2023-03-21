@@ -32,3 +32,7 @@
     {/if}
   </div>
 {/if}
+
+<svelte:head>
+  <title>PhenObs</title>
+</svelte:head>

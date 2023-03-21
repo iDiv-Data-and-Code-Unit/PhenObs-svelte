@@ -58,3 +58,7 @@
     Add collection
   </a>
 </div>
+
+<svelte:head>
+  <title>PhenObs | Home</title>
+</svelte:head>

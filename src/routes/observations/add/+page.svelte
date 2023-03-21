@@ -57,3 +57,7 @@
     </svg></button
   >
 </div>
+
+<svelte:head>
+  <title>PhenObs | Add</title>
+</svelte:head>

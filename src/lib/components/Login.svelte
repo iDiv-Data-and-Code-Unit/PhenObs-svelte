@@ -1,5 +1,7 @@
 <script lang="ts">
   import { goto } from '$app/navigation';
+  import imgTransparent from '$lib/assets/PhenObs_Logo_Transparent.png'
+  import imgWhite from '$lib/assets/PhenObs_Logo_Transparent_White.png'
 
   let username: string = 'user';
   let password: string = 'QazxswedC123!';
@@ -36,12 +38,12 @@
     <div class="hero-content flex-col lg:flex-row lg:gap-16">
       <div class="text-center lg:text-left">
         <img
-          src="PhenObs_Logo_Transparent.png"
+          src={imgTransparent}
           alt="PhenObs Logo"
-          class="w-48 md:w-60 lg:w-80  dark:hidden"
+          class="w-48 md:w-60 lg:w-80 dark:hidden"
         />
         <img
-          src="PhenObs_Logo_Transparent_White.png"
+          src={imgWhite}
           alt="PhenObs Logo"
           class="w-48 md:w-60 lg:w-80 dark:block hidden"
         />

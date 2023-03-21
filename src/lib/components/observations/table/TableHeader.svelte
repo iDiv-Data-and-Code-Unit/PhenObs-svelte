@@ -1,7 +1,7 @@
 <div class="flex flex-wrap justify-between items-center gap-2">
   <h1 class="text-4xl font-semibold my-2"><span class="break-all">Jena</span> collections</h1>
   <div class="flex gap-3 my-2">
-    <button class="btn btn-secondary btn-outline gap-2"
+    <button class="btn btn-secondary btn-outline gap-2" on:click|preventDefault
       ><svg
         xmlns="http://www.w3.org/2000/svg"
         width="16"
