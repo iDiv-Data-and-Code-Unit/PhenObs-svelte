@@ -3,95 +3,93 @@ import { writable } from 'svelte/store';
 import { browser } from '$app/environment';
 import type { CollectionType, StoredCollectionType } from '$lib/types';
 
-const defaultValue = '[]';
+const defaultValue: StoredCollectionType[] = [];
 const initialValue = browser
-  ? window.localStorage.getItem('collections') ?? defaultValue
+  ? JSON.parse(window.localStorage.getItem('collections') || '[]') ?? defaultValue
   : defaultValue;
 
-const collections = writable<string>(initialValue);
+const collections = writable<StoredCollectionType[]>(initialValue);
 
 const collectionsStore = {
   subscribe: collections.subscribe,
-  set: (data: CollectionType[]) => {
-    const stringValue = JSON.stringify(data);
-    collections.set(stringValue);
-    window.localStorage.setItem('collections', stringValue);
+  set: (data: StoredCollectionType[]) => {
+    collections.set(data);
+    window.localStorage.setItem('collections', JSON.stringify(data));
   },
   update: collections.update,
   edit: (data: StoredCollectionType) => {
-    let storedCollections: StoredCollectionType[] = [];
-
+    let done = false;
     collections.update((values) => {
-      storedCollections = JSON.parse(values);
-      const index = storedCollections.findIndex((item) => item.id === data.id);
-      storedCollections[index] = data;
-
-      const updatedCollections = JSON.stringify(storedCollections);
-      window.localStorage.setItem('collections', updatedCollections);
-      return updatedCollections;
+      const index = values.findIndex((item) => item.id === data.id);
+      if (index !== -1) {
+        values[index] = data;
+        done = true;
+      }
+      window.localStorage.setItem('collections', JSON.stringify(values));
+      return values;
     });
 
-    return storedCollections;
+    return done;
+  },
+  exists: (id: number) => {
+    let result: StoredCollectionType | null = null;
+    collections.update((items) => {
+      const index = items.findIndex((item) => item.id === id);
+      if (index !== -1) {
+        result = items[index];
+      }
+      return items;
+    });
+    return result;
   },
   add: (data: CollectionType) => {
-    let storedCollections: StoredCollectionType[] = [];
+    collections.update((values) => {
+      values = [...values, { ...data, edited: false, uploaded: data.finished }];
+      window.localStorage.setItem('collections', JSON.stringify(values));
+      return values;
+    });
+  },
+  remove: (id: number) => {
+    let done = false;
 
     collections.update((values) => {
-      storedCollections = JSON.parse(values);
-      const updatedCollections = JSON.stringify([
-        ...storedCollections,
-        { data, edited: false, uploaded: true }
-      ]);
-      window.localStorage.setItem('collections', updatedCollections);
-      return updatedCollections;
+      const index = values.findIndex((item) => item.id === id);
+      if (index !== -1) {
+        values.splice(index, 1);
+        done = true;
+      }
+      window.localStorage.setItem('collections', JSON.stringify(values));
+      return values;
     });
 
-    return storedCollections;
+    return done;
   },
-  remove: (data: StoredCollectionType) => {
-    let storedCollections: StoredCollectionType[] = [];
+  getAndUpdateCollections: (data: CollectionType[]) => {
+    let local: StoredCollectionType[] = [];
+    let database: CollectionType[] = [];
 
     collections.update((values) => {
-      storedCollections = JSON.parse(values);
-      const filteredCollections = storedCollections.filter((item) => item.id !== data.id);
-      const updatedCollections = JSON.stringify(filteredCollections);
-      window.localStorage.setItem('collections', updatedCollections);
-      return updatedCollections;
-    });
-
-    return storedCollections;
-  },
-  getAndUpdateCollections: (data: StoredCollectionType[]) => {
-    let storedCollections: StoredCollectionType[] = [];
-
-    collections.update((values) => {
-      let storedCollections = JSON.parse(values);
-
       for (let i = 0; i < data.length; i++) {
         const collection = data[i];
-
-        const index = storedCollections.findIndex(
-          (item: StoredCollectionType) => item.id === collection.id
-        );
-
+        const index = values.findIndex((item) => item.id === collection.id);
         // Update stored collections which are unifinished or finished but not edited
-        if (
-          index !== -1 &&
-          (!storedCollections[index].edited || !storedCollections[index].finished)
-        ) {
-          storedCollections[index] = { ...collection, edited: false, uploaded: true };
-          data.splice(i, 1);
+        if (index !== -1 && (!values[index].edited || !values[index].finished)) {
+          if (collection.finished) {
+            values[index] = { ...collection, edited: false, uploaded: true };
+          }
+        } else {
+          database.push(collection);
         }
       }
+      window.localStorage.setItem('collections', JSON.stringify(values));
 
-      const updatedCollections = JSON.stringify(storedCollections);
-      window.localStorage.setItem('collections', updatedCollections);
-      return updatedCollections;
+      local = values;
+      return values;
     });
 
     return {
-      local: storedCollections,
-      database: data
+      local,
+      database
     };
   }
 };

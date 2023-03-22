@@ -6,8 +6,12 @@
   import ObservationForm from '$lib/components/observations/ObservationForm.svelte';
 
   import collectionsStore from '$lib/shared/collections';
+  import type { StoredCollectionType } from '$lib/types';
 
   export let data: PageData;
+  const id = data.id;
+  let collection: StoredCollectionType | null = null;
+
   let height: number;
   let y: number;
   let showBackToTop = false;
@@ -18,14 +22,22 @@
     document.body.scrollIntoView({ behavior: 'smooth' });
   };
 
-  onMount(() => {
+  onMount(async () => {
     height = document.body.scrollHeight;
-    collectionsStore.update(items => {
-      const index = items.findIndex(item => item.id === data.id);
-      if (index === -1) {
-        items = [...items, {data, uploaded: true, edited: false}];
+    let col: StoredCollectionType | null = collectionsStore.exists(id);
+
+    if (!col) {
+      const res = await fetch(`http://127.0.0.1:8000/observations/${id}/`, {
+        credentials: 'include'
+      });
+
+      if (res.ok) {
+        const json = await res.json();
+        collectionsStore.add(json);
       }
-    })
+    }
+
+    collection = collectionsStore.exists(id);
   });
 </script>
 

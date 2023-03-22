@@ -47,7 +47,7 @@
         width="20"
         height="20"
         fill="currentColor"
-        class="bi bi-exclamation-circle-fill text-danger"
+        class="bi bi-exclamation-circle-fill text-error"
         viewBox="0 0 16 16"
       >
         <path

@@ -44,7 +44,7 @@
       header: 'Status',
       cell: ({ row }, _) => {
         return createRender(Status, {
-          row: row.original
+          row: row.isData() && row.original
         });
       }
     }),
@@ -53,7 +53,7 @@
       header: 'Actions',
       cell: ({ row }, _) => {
         return createRender(Actions, {
-          row: row.original
+          row: row.isData() && row.original
         });
       }
     })
@@ -66,7 +66,7 @@
 </script>
 
 <div class="overflow-x-auto mt-5 rounded-xl">
-  <table {...$tableAttrs} class="table w-full">
+  <table {...$tableAttrs} class="table lg:table-fixed w-full">
     <thead>
       {#each $headerRows as headerRow (headerRow.id)}
         <Subscribe
@@ -75,7 +75,7 @@
           rowProps={headerRow.props()}
           let:rowProps
         >
-          <tr {...rowAttrs}>
+          <tr {...rowAttrs} >
             {#each headerRow.cells as cell (cell.id)}
               <Subscribe attrs={cell.attrs()} props={cell.props()} let:props let:attrs>
                 <th scope="col" {...attrs}>

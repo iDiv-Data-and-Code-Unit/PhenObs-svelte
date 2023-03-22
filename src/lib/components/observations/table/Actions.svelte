@@ -1,11 +1,20 @@
 <script lang="ts">
+  import Modal from '../Modal.svelte';
+  import collectionsStore from '$lib/shared/collections';
+
   export let row;
-  const { finished, edited, uploaded } = row;
+  const { finished, edited, uploaded, id } = row;
+  let displayModal = false;
   let local = true;
 
   if (edited === undefined && uploaded === undefined) {
     local = false;
   }
+
+  const deleteStoredCollection = () => {
+    collectionsStore.remove(id);
+    displayModal = false;
+  };
 </script>
 
 <div class="flex gap-2">
@@ -29,7 +38,7 @@
         </svg></button
       >
     {/if}
-    <button class="btn btn-warning btn-outline border-0"
+    <button class="btn btn-warning btn-outline border-0" on:click={() => (displayModal = true)}
       ><svg
         xmlns="http://www.w3.org/2000/svg"
         width="20"
@@ -59,3 +68,7 @@
     </svg></a
   >
 </div>
+
+<Modal hidden={!displayModal} on:click={deleteStoredCollection}
+  >Are you sure about deleting this collection?</Modal
+>

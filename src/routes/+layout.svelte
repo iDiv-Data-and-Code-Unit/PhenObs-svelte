@@ -7,7 +7,7 @@
   import Login from '$lib/components/Login.svelte';
 
   let status: boolean;
-  let displayLogin = true;
+  let displayLogin = false;
 
   onMount(async () => {
     const res = await fetch('http://127.0.0.1:8000/auth/user/', {

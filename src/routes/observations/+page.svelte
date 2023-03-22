@@ -5,8 +5,29 @@
   import collectionsStore from '$lib/shared/collections';
   import type { CollectionType, StoredCollectionType } from '$lib/types';
 
-  let saved = writable<CollectionType[]>([]);
-  let notsaved = writable<StoredCollectionType[]>(JSON.parse($collectionsStore));
+  let saved = writable<StoredCollectionType[] | CollectionType[]>(
+    $collectionsStore.filter((item) => item.uploaded && !item.edited)
+  );
+  let notsaved = writable<StoredCollectionType[]>(
+    $collectionsStore.filter((item) => !item.uploaded || !item.finished)
+  );
+
+  collectionsStore.subscribe((items) => {
+    $notsaved.forEach((item) => {
+      if (items.findIndex((val) => val.id === item.id) === -1) {
+        notsaved.update((vals) => vals.filter((val) => val.id !== item.id));
+      }
+    });
+    $saved.forEach((item) => {
+      if (
+        'edited' in item &&
+        'uploaded' in item &&
+        items.findIndex((val) => val.id === item.id) === -1
+      ) {
+        saved.update((vals) => vals.filter((val) => val.id !== item.id));
+      }
+    });
+  });
 
   const getCollections = async () => {
     const request = await fetch('http://127.0.0.1:8000/observations/?thin', {
@@ -20,7 +41,14 @@
 
     for (let collection of $notsaved) {
       if (collection.uploaded && !collection.edited) {
-        saved.update((items) => [collection, ...items]);
+        saved.update((items) => {
+          const index = items.findIndex((item) => item.id === collection.id);
+          if (index !== -1) {
+            items.splice(index, 1);
+          }
+
+          return [collection, ...items];
+        });
         notsaved.update((items) => items.filter((item) => item.id !== collection.id));
       }
     }

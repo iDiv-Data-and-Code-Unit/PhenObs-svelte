@@ -1,10 +1,21 @@
 <script lang="ts">
   import { formatDate } from '$lib/shared/app';
-  let dateStr: string = new Date().toISOString().split('T')[0];
+  let todayStr = new Date().toISOString().split('T')[0];
+  let dateStr: string = todayStr;
   $: dateStrFormatted = formatDate(new Date(dateStr));
+
+  const handleChange = (e: any) => {
+    const target = e.target;
+    const value = (target as HTMLInputElement).value;
+    if (value === '') {
+      dateStr = todayStr;
+    }
+  };
 </script>
 
-<button class="btn btn-secondary btn-outline flex md:gap-10 gap-5 lg:py-14 py-10 content-center justify-center text-xl relative">
+<button
+  class="btn btn-secondary btn-outline flex md:gap-10 gap-5 lg:py-14 py-10 content-center justify-center text-xl relative"
+>
   <!-- <span class="badge badge-secondary border-0 content-center absolute bottom-2 right-2 ">Online</span> -->
   <p>{dateStrFormatted}</p>
   <svg
@@ -23,6 +34,7 @@
     type="date"
     class="w-full absolute bottom-0 h-full opacity-0"
     bind:value={dateStr}
+    on:change={handleChange}
     required
   /></button
 >
