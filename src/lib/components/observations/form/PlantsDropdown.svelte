@@ -55,10 +55,10 @@
       </svg>
     {/if}
   </button>
-  <div class="btn p-0 text-xl btn-warning gap-1 relative grow no-animation">
-    <div class="grid grid-flow-col gap-2 xl:gap-5 font-bold items-center w-full">
+  <div class="btn p-0 text-xl btn-warning gap-1 relative grow no-animation w-min">
+    <div class="grid grid-cols-1 gap-2 xl:gap-5 font-bold items-center w-full">
       <p
-        class="font-semibold truncate whitespace-nowrap grid overflow-hidden break-all relative text-black text-xl"
+        class="font-semibold truncate whitespace-nowrap overflow-hidden break-all text-black text-xl px-10"
       >
         {selectedPlantName}
       </p>
