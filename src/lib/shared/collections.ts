@@ -1,7 +1,7 @@
 import { writable } from 'svelte/store';
 
 import { browser } from '$app/environment';
-import type { CollectionType, StoredCollectionType } from '$lib/types';
+import type { CollectionType, RecordType, StoredCollectionType } from '$lib/types';
 
 const defaultValue: StoredCollectionType[] = [];
 const initialValue = browser
@@ -91,6 +91,17 @@ const collectionsStore = {
       local,
       database
     };
+  },
+  editRecord: (data: RecordType) => {
+    collections.update((items) => {
+      const collectionIndex = items.findIndex((item) => item.id === data.collection);
+      const collection = items[collectionIndex];
+      const recordIndex = collection?.records.findIndex((item) => item.id === data.id);
+      items[collectionIndex].records[recordIndex] = data;
+
+      window.localStorage.setItem('collections', JSON.stringify(items));
+      return items;
+    });
   }
 };
 

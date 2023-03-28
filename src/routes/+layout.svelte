@@ -6,30 +6,45 @@
   import Navbar from '$lib/components/Navbar.svelte';
   import Login from '$lib/components/Login.svelte';
 
+  let loading = true;
   let status: boolean;
   let displayLogin = false;
 
   onMount(async () => {
-    const res = await fetch('http://127.0.0.1:8000/auth/user/', {
-      credentials: 'include'
-    });
+    loading = true;
 
-    displayLogin = !res.ok;
+    try {
+      const res = await fetch('http://127.0.0.1:8000/auth/user/', {
+        credentials: 'include'
+      });
+      displayLogin = !res.ok;
+    } catch (error) {
+      console.log(error);
+      displayLogin = true;
+    }
+
+    loading = false;
   });
 </script>
 
 <svelte:window bind:online={status} />
-{#if displayLogin}
-  <Login bind:displayLogin />
-{:else}
-  <div class="container mx-auto h-screen">
-    <div class="sm:p-5 p-2.5">
-      <Navbar {status} />
-      <slot />
+{#if !loading}
+  {#if displayLogin}
+    <Login bind:displayLogin />
+  {:else}
+    <div class="container mx-auto h-screen">
+      <div class="sm:p-5 p-2.5">
+        <Navbar {status} />
+        <slot />
+      </div>
+      {#if $page.url.pathname !== '/imprint'}
+        <div class="justify-center flex py-10"><a href="/imprint">Imprint</a></div>
+      {/if}
     </div>
-    {#if $page.url.pathname !== '/imprint'}
-      <div class="justify-center flex py-10"><a href="/imprint">Imprint</a></div>
-    {/if}
+  {/if}
+{:else}
+  <div class="flex w-screen h-screen justify-center items-center">
+    <progress class="progress w-56" />
   </div>
 {/if}
 

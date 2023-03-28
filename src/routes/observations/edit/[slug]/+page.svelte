@@ -2,8 +2,8 @@
   import type { PageData } from './$types';
   import { onMount } from 'svelte';
 
-  import Calendar from '$lib/components/observations/Calendar.svelte';
-  import ObservationForm from '$lib/components/observations/ObservationForm.svelte';
+  import Calendar from '$lib/components/observations/form/Calendar.svelte';
+  import ObservationForm from '$lib/components/observations/form/ObservationForm.svelte';
 
   import collectionsStore from '$lib/shared/collections';
   import type { StoredCollectionType } from '$lib/types';
@@ -70,7 +70,9 @@
     </button>
   </div>
   <h1 class="text-3xl font-semibold my-5">Edit observation</h1>
-  <ObservationForm />
+  {#if collection}
+    <ObservationForm {collection} />
+  {/if}
 
   <button
     on:click|preventDefault={scrollToTop}

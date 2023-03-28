@@ -1,13 +1,18 @@
+<script lang="ts">
+  export let loading = false;
+</script>
+
 <div class="flex flex-wrap justify-between items-center gap-2">
   <h1 class="text-4xl font-semibold my-2"><span class="break-all">Jena</span> collections</h1>
   <div class="flex gap-3 my-2">
-    <button class="btn btn-secondary btn-outline gap-2" on:click|preventDefault
+    <button class="btn btn-secondary btn-outline gap-2" class:loading={loading} on:click|preventDefault
       ><svg
         xmlns="http://www.w3.org/2000/svg"
         width="16"
         height="16"
         fill="currentColor"
         class="bi bi-database-fill"
+        class:hidden={loading}
         viewBox="0 0 16 16"
       >
         <path
@@ -22,7 +27,7 @@
         <path
           d="M2 12.161V13c0 1.007.875 1.755 1.904 2.223C4.978 15.711 6.427 16 8 16s3.022-.289 4.096-.777C13.125 14.755 14 14.007 14 13v-.839c-.457.432-1.004.751-1.49.972-1.232.56-2.828.867-4.51.867s-3.278-.307-4.51-.867c-.486-.22-1.033-.54-1.49-.972Z"
         />
-      </svg><span class="hidden md:block">Get collections</span></button
+      </svg><span class="hidden md:block ">{loading ? 'Loading' : 'Get collections'}</span></button
     >
     <a class="btn btn-secondary btn-outline gap-2" href="/observations/add"
       ><svg

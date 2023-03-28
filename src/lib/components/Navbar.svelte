@@ -4,13 +4,6 @@
 
   export let status = true;
   let toggleDropdown = false;
-
-  const signOut = async () => {
-    const res = await fetch('http://127.0.0.1:8000/auth/logout', {
-      method: 'POST',
-      credentials: 'include'
-    });
-  };
 </script>
 
 <div class="navbar rounded-lg grid grid-flow-row auto-rows-max p-1 dark:bg-white dark:bg-opacity-10 shadow-lg">

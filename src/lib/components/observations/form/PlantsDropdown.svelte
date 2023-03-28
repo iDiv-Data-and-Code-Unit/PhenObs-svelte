@@ -1,4 +1,9 @@
 <script lang="ts">
+  import type { RecordType } from '$lib/types';
+
+  export let record: RecordType | undefined;
+  export let records: RecordType[];
+
   let sortNumeric = false;
   let selectedPlantName: string = '';
   let selectedPlant: number;
@@ -7,6 +12,7 @@
     const target = e.target as HTMLSelectElement;
     selectedPlantName = target.selectedOptions[0].innerText;
     selectedPlant = parseInt(target.value);
+    record = records.find((item) => item.plant === selectedPlant);
   };
 </script>
 
@@ -52,7 +58,7 @@
   <div class="btn p-0 text-xl btn-warning gap-1 relative grow no-animation">
     <div class="grid grid-flow-col gap-2 xl:gap-5 font-bold items-center w-full">
       <p
-        class="font-semibold truncate whitespace-nowrap overflow-hidden break-all relative text-black text-xl"
+        class="font-semibold truncate whitespace-nowrap grid overflow-hidden break-all relative text-black text-xl"
       >
         {selectedPlantName}
       </p>
@@ -71,12 +77,9 @@
       on:change={changeHandler}
     >
       <option disabled selected value />
-      <option value="1">Plant 1</option>
-      <option value="2">Plant 2</option>
-      <option value="3">Plant 3</option>
-      <option value="4">Plant 4</option>
-      <option value="5">Plant 5</option>
-      <option value="6">Plant 6</option>
+      {#each records as { plant, plant_name } (plant)}
+        <option value={plant}>{plant_name}</option>
+      {/each}
     </select>
   </div>
 </div>

@@ -4,6 +4,9 @@
   import TableHeader from '$lib/components/observations/table/TableHeader.svelte';
   import collectionsStore from '$lib/shared/collections';
   import type { CollectionType, StoredCollectionType } from '$lib/types';
+  import CollapseHeader from '$lib/components/observations/table/CollapseHeader.svelte';
+
+  let loading = false;
 
   let saved = writable<StoredCollectionType[] | CollectionType[]>(
     $collectionsStore.filter((item) => item.uploaded && !item.edited)
@@ -13,23 +16,27 @@
   );
 
   collectionsStore.subscribe((items) => {
-    $notsaved.forEach((item) => {
-      if (items.findIndex((val) => val.id === item.id) === -1) {
-        notsaved.update((vals) => vals.filter((val) => val.id !== item.id));
-      }
-    });
-    $saved.forEach((item) => {
-      if (
-        'edited' in item &&
-        'uploaded' in item &&
-        items.findIndex((val) => val.id === item.id) === -1
-      ) {
-        saved.update((vals) => vals.filter((val) => val.id !== item.id));
-      }
-    });
+    notsaved.update((vals) =>
+      vals.filter((item) => items.findIndex((val) => val.id === item.id) !== -1)
+    );
+
+    saved.update((vals) =>
+      vals.filter(
+        (item) =>
+          ('edited' in item &&
+            'uploaded' in item &&
+            item.uploaded &&
+            !item.edited &&
+            item.finished &&
+            items.findIndex((val) => val.id === item.id) !== -1) ||
+          items.findIndex((val) => val.id === item.id) === -1
+      )
+    );
   });
 
   const getCollections = async () => {
+    loading = true;
+
     const request = await fetch('http://127.0.0.1:8000/observations/?thin', {
       credentials: 'include'
     });
@@ -52,16 +59,17 @@
         notsaved.update((items) => items.filter((item) => item.id !== collection.id));
       }
     }
+
+    loading = false;
   };
 </script>
 
 <div class="container rounded-lg mt-5 shadow-lg md:p-10 p-5 dark:bg-slate-800">
   <!-- TODO: Garden name as prop -->
-  <TableHeader on:click={getCollections} />
-  <h1 class="text-3xl mt-10 font-semibold">Not saved</h1>
-  <Table name="notsaved" store={notsaved} />
-  <h1 class="text-3xl font-semibold">Saved</h1>
-  <Table name="saved" store={saved} />
+  <TableHeader on:click={getCollections} bind:loading />
+  <div class="md:mt-10 sm:mt-5"></div>
+  <CollapseHeader title="Not saved"><Table name="notsaved" store={notsaved} /></CollapseHeader>
+  <CollapseHeader title="Saved"><Table name="saved" store={saved} /></CollapseHeader>
 </div>
 
 <svelte:head>

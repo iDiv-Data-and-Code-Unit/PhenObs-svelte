@@ -1,4 +1,5 @@
 export interface RecordType {
+  [key: string]: string | number | string[] | null | boolean;
   id: number;
   maintenance: string[];
   timestamp_entry: string;
@@ -18,6 +19,7 @@ export interface RecordType {
   collection: number;
   plant: number;
   editor: number;
+  plant_name:string;
 }
 
 export interface ThinCollectionType {

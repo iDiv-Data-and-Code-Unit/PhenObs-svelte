@@ -1,18 +1,18 @@
 <script lang="ts">
-  import Modal from '../Modal.svelte';
+  import Modal from '$lib/components/Modal.svelte';
   import collectionsStore from '$lib/shared/collections';
 
   export let row;
-  const { finished, edited, uploaded, id } = row;
+  const { finished } = row;
   let displayModal = false;
-  let local = true;
+  let local = false;
 
-  if (edited === undefined && uploaded === undefined) {
-    local = false;
+  if ('edited' in row && 'uploaded' in row) {
+    local = true;
   }
 
   const deleteStoredCollection = () => {
-    collectionsStore.remove(id);
+    collectionsStore.remove(row.id);
     displayModal = false;
   };
 </script>

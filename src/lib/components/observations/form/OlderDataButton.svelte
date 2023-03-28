@@ -1,9 +1,10 @@
 <script lang="ts">
   export let id: string;
   export let title: string;
+  export let disabled: boolean;
 </script>
 
-<label for={id} class="btn btn-outline text-lg"><slot name="button" /></label>
+<button on:click|preventDefault class="btn btn-outline text-lg" {disabled}><slot name="button" /></button>
 
 <input type="checkbox" {id} class="modal-toggle" />
 <label for={id} class="modal cursor-pointer">

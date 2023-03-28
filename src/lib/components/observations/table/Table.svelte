@@ -65,7 +65,7 @@
   const { pageIndex, pageCount, pageSize, hasNextPage, hasPreviousPage } = pluginStates.page;
 </script>
 
-<div class="overflow-x-auto mt-5 rounded-xl">
+<div class="overflow-x-auto rounded-xl">
   <table {...$tableAttrs} class="table lg:table-fixed w-full">
     <thead>
       {#each $headerRows as headerRow (headerRow.id)}
@@ -118,7 +118,7 @@
 </div>
 
 <div class="flex justify-end">
-  <div class="btn-group bg-base-200/40 rounded-lg my-5 w-min">
+  <div class="btn-group bg-base-200/40 rounded-lg w-min">
     {#each [...Array($pageCount).keys()] as page (page)}
       <input
         type="radio"

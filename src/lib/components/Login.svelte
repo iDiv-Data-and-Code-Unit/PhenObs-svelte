@@ -33,7 +33,7 @@
   }
 </script>
 
-<div class="container">
+<div class="container mx-auto">
   <div class="hero min-h-screen">
     <div class="hero-content flex-col lg:flex-row lg:gap-16">
       <div class="text-center lg:text-left">
