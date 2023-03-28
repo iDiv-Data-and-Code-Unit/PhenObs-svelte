@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { ArrowUp } from 'svelte-bootstrap-icons';
+
   import type { PageData } from './$types';
   import { onMount } from 'svelte';
 
@@ -47,7 +49,6 @@
   <h1 class="text-4xl font-semibold">Edit collection</h1>
   <!-- TODO: Add functionality to the calendar and garden selector -->
   <div class="grid lg:grid-cols-4 lg:gap-4 gap-2 mt-5">
-    <!-- ! Don't allow empty date -->
     <Calendar />
 
     <div class="lg:col-span-2">
@@ -78,20 +79,9 @@
     on:click|preventDefault={scrollToTop}
     class="btn btn-warning btn-circle bottom-5 right-5 fixed shadow-xl"
     class:hidden={!showBackToTop}
-    ><svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="20"
-      height="20"
-      fill="currentColor"
-      class="bi bi-arrow-up"
-      viewBox="0 0 16 16"
-    >
-      <path
-        fill-rule="evenodd"
-        d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5z"
-      />
-    </svg></button
   >
+    <ArrowUp width={20} height={20} />
+  </button>
 </div>
 
 <svelte:head>

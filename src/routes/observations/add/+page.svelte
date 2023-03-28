@@ -1,8 +1,10 @@
 <script lang="ts">
+  import { ArrowUp } from 'svelte-bootstrap-icons';
+
   import { onMount } from 'svelte';
-  import Calendar from '$lib/components/observations/Calendar.svelte';
-  import ObservationForm from '$lib/components/observations/ObservationForm.svelte';
-  import Subgarden from '$lib/components/observations/Subgarden.svelte';
+  import Calendar from '$lib/components/observations/form/Calendar.svelte';
+  import ObservationForm from '$lib/components/observations/form/ObservationForm.svelte';
+  import Subgarden from '$lib/components/observations/form/Subgarden.svelte';
 
   let height: number;
   let y: number;
@@ -36,26 +38,15 @@
     </button>
   </div>
   <h1 class="text-3xl font-semibold my-5">Add observation</h1>
-  <ObservationForm />
+  <!-- <ObservationForm /> -->
 
   <button
     on:click|preventDefault={scrollToTop}
     class="btn btn-warning btn-circle bottom-5 right-5 fixed shadow-xl"
     class:hidden={!showBackToTop}
-    ><svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="20"
-      height="20"
-      fill="currentColor"
-      class="bi bi-arrow-up"
-      viewBox="0 0 16 16"
-    >
-      <path
-        fill-rule="evenodd"
-        d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5z"
-      />
-    </svg></button
   >
+    <ArrowUp width={20} height={20} />
+  </button>
 </div>
 
 <svelte:head>

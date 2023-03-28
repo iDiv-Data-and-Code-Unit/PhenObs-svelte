@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { ChevronDown } from 'svelte-bootstrap-icons';
+
   let selectedSubgardenName: string = '';
   let selectedSubgarden: number;
 
@@ -18,19 +20,12 @@
     <p class="font-normal truncate whitespace-nowrap overflow-hidden break-all">
       {selectedSubgardenName}
     </p>
-    <svg
-      class="fill-current"
-      xmlns="http://www.w3.org/2000/svg"
-      width="20"
-      height="20"
-      viewBox="0 0 24 24"
-      ><path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" /></svg
-    >
+    <ChevronDown width={12} height={12} class="stroke-current" />
   </div>
   <select
     name="subgardens"
     id="subgardens"
-    class="absolute bottom-0 w-full h-full opacity-0 text-secondary"
+    class="absolute bottom-0 w-full h-full opacity-0 text-secondary bg-white"
     on:change={changeHandler}
   >
     <option disabled selected value />

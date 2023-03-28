@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { ListNested, ChevronDown } from 'svelte-bootstrap-icons';
+
   import { page } from '$app/stores';
   import { slide } from 'svelte/transition';
 
@@ -6,7 +8,9 @@
   let toggleDropdown = false;
 </script>
 
-<div class="navbar rounded-lg grid grid-flow-row auto-rows-max p-1 dark:bg-white dark:bg-opacity-10 shadow-lg">
+<div
+  class="navbar rounded-lg grid grid-flow-row auto-rows-max p-1 dark:bg-white dark:bg-opacity-10 shadow-lg"
+>
   <div class="p-1">
     <div class="justify-between flex w-full">
       <div class="dropdown md:hidden">
@@ -15,19 +19,7 @@
           class="btn btn-ghost md:hidden"
           on:click={() => (toggleDropdown = !toggleDropdown)}
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-5 w-5"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            ><path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M4 6h16M4 12h8m-8 6h16"
-            /></svg
-          >
+          <ListNested width={24} height={24} class="h-5 w-5 stroke-current" />
         </label>
       </div>
 
@@ -53,14 +45,7 @@
                 class:active={$page.url.pathname.includes('/observations')}
               >
                 Observations
-                <svg
-                  class="fill-current"
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  ><path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" /></svg
-                >
+                <ChevronDown width={12} height={12} class="stroke-current" />
               </div>
               <ul class="w-40 shadow-lg dark:bg-slate-800 p-2 bg-base-100 gap-1">
                 <li>
