@@ -7,12 +7,14 @@
   import ObservationInputs from './ObservationInputs.svelte';
 
   export let collection: StoredCollectionType;
+  export let previousCollection: StoredCollectionType | null;
   let record: RecordType;
+  let previousRecord: RecordType | null;
 </script>
 
 <form class="text-lg">
   <ObservationFormRow label="Plant">
-    <PlantsDropdown records={collection.records} bind:record />
+    <PlantsDropdown records={collection.records} previousRecords={previousCollection?.records || null} bind:record bind:previousRecord />
     <button
       class="btn flex lg:gap-5 gap-3 content-center btn-outline"
       disabled={record === undefined}
@@ -23,5 +25,9 @@
     </button>
   </ObservationFormRow>
 
-  <ObservationInputs {record} />
+  {#if record !== undefined}
+    <ObservationInputs {record} {previousRecord} />
+  {:else}
+    <p class="flex w-full h-full justify-center my-10">...</p>
+  {/if}
 </form>

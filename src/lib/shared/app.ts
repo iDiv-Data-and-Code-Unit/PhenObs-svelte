@@ -20,3 +20,61 @@ export const toSnakeCase = (text: string) => {
     .map((word) => word.toLowerCase())
     .join('_');
 };
+
+export const mapped: { [key: string]: string } = {
+  no: 'no',
+  yes: 'y',
+  unsure: 'u',
+  missed: 'm',
+  m: 'missed',
+  u: 'unsure',
+  y: 'yes'
+};
+
+export const choices = ['yes', 'unsure', 'missed', 'no'];
+
+export const fields = [
+  {
+    type: 'group',
+    name: 'Initial vegetative growth'
+  },
+  {
+    type: 'group',
+    name: 'Young leaves unfolding'
+  },
+  {
+    type: 'group',
+    name: 'Flowers opening',
+    key: 'flowers_open'
+  },
+  {
+    type: 'group',
+    name: 'Peak flowering'
+  },
+  {
+    type: 'intensity',
+    name: 'Flowering intensity',
+    related: 'flowers_open'
+  },
+  {
+    type: 'group',
+    name: 'Ripe fruits'
+  },
+  {
+    type: 'group',
+    name: 'Senescence'
+  },
+  {
+    type: 'intensity',
+    name: 'Senescence intensity',
+    related: 'senescence'
+  },
+  {
+    type: 'multiselect',
+    name: 'Maintenance'
+  },
+  {
+    type: 'textarea',
+    name: 'Remarks'
+  }
+];

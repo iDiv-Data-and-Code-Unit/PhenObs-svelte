@@ -1,7 +1,8 @@
 <script lang="ts">
+  import { scale } from 'svelte/transition';
   import { toSnakeCase } from '$lib/shared/app';
   import type { RecordType } from '$lib/types';
-  import { createEventDispatcher, onMount } from 'svelte';
+  import { createEventDispatcher } from 'svelte';
 
   import MultiselectButton from './MultiselectButton.svelte';
 
@@ -10,7 +11,9 @@
   export let disabled = false;
   let maintenance: { value: boolean; title: string }[];
 
-  const dispatch = createEventDispatcher<{ select: { value: string[]; key: string } }>();
+  const dispatch = createEventDispatcher<{
+    select: { value: string[]; key: string; previous: boolean };
+  }>();
 
   $: maintenance = [
     { value: record.maintenance.includes('cut_total'), title: 'Cut total' },
@@ -24,12 +27,16 @@
   const handleToggle = () => {
     dispatch('select', {
       value: maintenance.filter((item) => item.value).map((item) => toSnakeCase(item.title)),
-      key
+      key,
+      previous: false
     });
   };
 </script>
 
-<div class="lg:col-span-2  md:col-span-3 flex flex-wrap gap-2 items-center">
+<div
+  class="lg:col-span-2  md:col-span-3 flex flex-wrap gap-2 items-center"
+  transition:scale={{ duration: 300 }}
+>
   {#each maintenance as { value, title } (title)}
     <MultiselectButton {disabled} bind:value {title} on:toggle={handleToggle} />
   {/each}

@@ -19,7 +19,7 @@ export interface RecordType {
   collection: number;
   plant: number;
   editor: number;
-  plant_name:string;
+  plant_name: string;
 }
 
 export interface ThinCollectionType {
@@ -32,6 +32,7 @@ export interface ThinCollectionType {
   creator_username: string;
   subgarden_name: string;
   main_garden_name: string;
+  prev_collection: number | null;
 }
 
 export interface CollectionType extends ThinCollectionType {

@@ -3,18 +3,19 @@
 
   import Modal from '$lib/components/Modal.svelte';
   import collectionsStore from '$lib/shared/collections';
+  import type { CollectionType } from '$lib/types';
 
-  export let row;
-  const { finished } = row;
+  export let row: CollectionType | null;
+  const { finished } = row as CollectionType;
   let displayModal = false;
   let local = false;
 
-  if ('edited' in row && 'uploaded' in row) {
+  if (row !== null && 'edited' in row && 'uploaded' in row) {
     local = true;
   }
 
   const deleteStoredCollection = () => {
-    collectionsStore.remove(row.id);
+    collectionsStore.remove(row?.id as number);
     displayModal = false;
   };
 </script>
@@ -30,7 +31,7 @@
       <TrashFill width={20} height={20} />
     </button>
   {/if}
-  <a class="btn btn-secondary btn-outline border-0" href={`/observations/edit/${row.id}`}>
+  <a class="btn btn-secondary btn-outline border-0" href={`/observations/edit/${row?.id}`}>
     <PencilFill width={20} height={20} />
   </a>
 </div>

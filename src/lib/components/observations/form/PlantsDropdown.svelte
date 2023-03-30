@@ -5,6 +5,8 @@
 
   export let record: RecordType | undefined;
   export let records: RecordType[];
+  export let previousRecord: RecordType | null | undefined;
+  export let previousRecords: RecordType[] | null;
 
   let sortNumeric = false;
   let selectedPlantName: string = '';
@@ -15,6 +17,9 @@
     selectedPlantName = target.selectedOptions[0].innerText;
     selectedPlant = parseInt(target.value);
     record = records.find((item) => item.plant === selectedPlant);
+    previousRecord = previousRecords
+      ? previousRecords.find((item) => item.plant === selectedPlant)
+      : null;
   };
 </script>
 

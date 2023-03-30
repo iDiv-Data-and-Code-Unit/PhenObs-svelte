@@ -1,13 +1,17 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte';
+
   export let checked: boolean;
   export let key: string;
 
-  const dispatch = createEventDispatcher<{ toggle: { value: boolean; key: string } }>();
+  const dispatch = createEventDispatcher<{
+    toggle: { value: boolean; key: string; previous: boolean };
+  }>();
 
   $: dispatch('toggle', {
     value: checked,
-    key
+    key,
+    previous: false
   });
 </script>
 

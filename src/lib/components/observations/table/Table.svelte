@@ -53,7 +53,7 @@
       header: 'Actions',
       cell: ({ row }, _) => {
         return createRender(Actions, {
-          row: row.isData() && row.original
+          row: row.isData() ? row.original : null
         });
       }
     })
@@ -75,7 +75,7 @@
           rowProps={headerRow.props()}
           let:rowProps
         >
-          <tr {...rowAttrs} >
+          <tr {...rowAttrs}>
             {#each headerRow.cells as cell (cell.id)}
               <Subscribe attrs={cell.attrs()} props={cell.props()} let:props let:attrs>
                 <th scope="col" {...attrs}>

@@ -11,21 +11,22 @@
   import type { StoredCollectionType } from '$lib/types';
 
   export let data: PageData;
-  const id = data.id;
-  let collection: StoredCollectionType | null = null;
 
+  let collection: StoredCollectionType | null = null;
+  let previousCollection: StoredCollectionType | null = null;
   let height: number;
   let y: number;
   let showBackToTop = false;
 
   $: showBackToTop = y > height * 0.6;
+  
+  const id = data.id;
 
   const scrollToTop = () => {
     document.body.scrollIntoView({ behavior: 'smooth' });
   };
 
-  onMount(async () => {
-    height = document.body.scrollHeight;
+  const getCollection = async (id: number) => {
     let col: StoredCollectionType | null = collectionsStore.exists(id);
 
     if (!col) {
@@ -39,7 +40,16 @@
       }
     }
 
-    collection = collectionsStore.exists(id);
+    return collectionsStore.exists(id);
+  };
+
+  onMount(async () => {
+    height = document.body.scrollHeight;
+
+    collection = await getCollection(id);
+    if (collection && collection['prev_collection'] !== null) {
+      previousCollection = await getCollection(collection['prev_collection']);
+    }
   });
 </script>
 
@@ -72,7 +82,7 @@
   </div>
   <h1 class="text-3xl font-semibold my-5">Edit observation</h1>
   {#if collection}
-    <ObservationForm {collection} />
+    <ObservationForm {collection} {previousCollection} />
   {/if}
 
   <button

@@ -1,34 +1,29 @@
 <script lang="ts">
   import type { RecordType } from '$lib/types';
   import { createEventDispatcher } from 'svelte';
+  import { scale } from 'svelte/transition';
+  import { choices, mapped } from '$lib/shared/app';
 
   export let record: RecordType;
-  export let choices: Array<string>;
   export let disabled = false;
   export let key: string;
 
-  const dispatch = createEventDispatcher<{ choice: { value: string; key: string } }>();
-  const mapped: { [key: string]: string } = {
-    no: 'no',
-    yes: 'y',
-    unsure: 'u',
-    missed: 'm',
-    m: 'missed',
-    u: 'unsure',
-    y: 'yes'
-  };
+  const dispatch = createEventDispatcher<{
+    choice: { value: string; key: string; previous: boolean };
+  }>();
 
   let value: string;
-  
+
   $: dispatch('choice', {
     value: mapped[value],
-    key
+    key,
+    previous: false
   });
 
   $: value = mapped[record[key] as string];
 </script>
 
-<div class="lg:col-span-2 md:col-span-3">
+<div class="lg:col-span-2 md:col-span-3" transition:scale={{ duration: 300 }}>
   <div class={`btn-group w-full flex`}>
     {#each choices as choice, index (index)}
       <button
