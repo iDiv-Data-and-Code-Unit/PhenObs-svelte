@@ -31,50 +31,71 @@ export const mapped: { [key: string]: string } = {
   y: 'yes'
 };
 
+export const getButtonValue = (value: string | number | string[], type: string) => {
+  return type === 'group' ? mapped[value as string] : value;
+};
+
 export const choices = ['yes', 'unsure', 'missed', 'no'];
 
 export const fields = [
   {
     type: 'group',
-    name: 'Initial vegetative growth'
+    name: 'Initial vegetative growth',
+    key: 'initial_vegetative_growth',
+    related: ''
   },
   {
     type: 'group',
-    name: 'Young leaves unfolding'
+    name: 'Young leaves unfolding',
+    key: 'young_leaves_unfolding',
+    related: ''
   },
   {
     type: 'group',
     name: 'Flowers opening',
-    key: 'flowers_open'
+    key: 'flowers_open',
+    related: ''
   },
   {
     type: 'group',
-    name: 'Peak flowering'
+    name: 'Peak flowering',
+    key: 'peak_flowering',
+    related: ''
   },
   {
     type: 'intensity',
     name: 'Flowering intensity',
+    key: 'flowering_intensity',
     related: 'flowers_open'
   },
   {
     type: 'group',
-    name: 'Ripe fruits'
+    name: 'Ripe fruits',
+    key: 'ripe_fruits',
+    related: ''
   },
   {
     type: 'group',
-    name: 'Senescence'
+    name: 'Senescence',
+    key: 'senescence',
+    related: ''
   },
   {
     type: 'intensity',
     name: 'Senescence intensity',
-    related: 'senescence'
+    related: 'senescence',
+    key: ''
   },
   {
     type: 'multiselect',
-    name: 'Maintenance'
+    name: 'Maintenance',
+    key: 'maintenance',
+    related: ''
   },
   {
     type: 'textarea',
-    name: 'Remarks'
+    name: 'Remarks',
+    key: 'remarks',
+    related: ''
   }
 ];

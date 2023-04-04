@@ -7,3 +7,4 @@
   <label for={toCamelCase(label)} class="md:text-xl md:col-span-4 lg:col-span-1">{label}</label>
   <slot />
 </div>
+

@@ -1,28 +1,25 @@
 <script lang="ts">
-  import ButtonGroup from '$lib/components/observations/form/ButtonGroup.svelte';
   import { createEventDispatcher } from 'svelte';
   import type { RecordType } from '$lib/types';
+  import ButtonGroup from '$lib/components/observations/form/ButtonGroup.svelte';
   import Intensity from './Intensity.svelte';
-  import { mapped } from '$lib/shared/app';
   import Multiselect from './Multiselect.svelte';
+  import Remarks from './Remarks.svelte';
+  import { getButtonValue } from '$lib/shared/app';
 
   export let record: RecordType;
   export let key: string;
   export let name: string;
   export let type: string;
   export let disabled: boolean;
-  let value: string | number = record[key] as string | number;
+  let value: string | number | string[] = record[key] as string | number;
 
   const dispatch = createEventDispatcher<{
-    save: { value: string | number; key: string; previous: boolean };
+    save: { value: string | number | string[]; key: string; previous: boolean };
   }>();
 
-  const getButtonValue = (value: string | number, type: string) => {
-    return type === 'group' ? mapped[value] : value;
-  };
-
   const updateValue = (
-    e: CustomEvent<{ value: string | number; key: string; previous: boolean }>
+    e: CustomEvent<{ value: string | number | string[]; key: string; previous: boolean }>
   ) => {
     value = getButtonValue(e.detail.value, type);
   };
@@ -33,8 +30,6 @@
     display = !display;
   };
 
-  console.log(value);
-  // $: value = record[key] as string | number | string[];
   $: title =
     value === record[key]
       ? getButtonValue(value, type)
@@ -43,7 +38,7 @@
 </script>
 
 <button
-  class={`btn text-lg btn-outline ${key === 'maintenance' && 'flex gap-2 h-max justify-start p-2'}`}
+  class={`btn text-lg btn-outline h-full ${key === 'maintenance' && 'flex gap-2 justify-start p-2'}`}
   class:btn-disabled={disabled}
   on:click|preventDefault={() => (display = !display)}
   >{#if type !== 'multiselect'}
@@ -65,20 +60,13 @@
 
     {#if display}
       {#if type === 'group'}
-        <ButtonGroup {record} {key} {disabled} on:choice={updateValue} />
+        <ButtonGroup {key} on:choice={updateValue} {disabled} {record} />
       {:else if type === 'intensity'}
         <Intensity {key} on:change={updateValue} {disabled} {record} />
       {:else if type === 'multiselect'}
-        <Multiselect {key} on:change={updateValue} {disabled} {record} />
+        <Multiselect {key} on:select={updateValue} {disabled} {record} />
       {:else}
-        <textarea
-          required={disabled}
-          placeholder="..."
-          class={`bg-warning/20 ${
-            record !== undefined && 'hover:bg-warning/30'
-          } lg:col-span-2  md:col-span-3 flex grow textarea textarea-lg w-full text-xl`}
-          >{value}</textarea
-        >
+        <Remarks {record} {key} {disabled} on:change={updateValue} />
       {/if}
     {/if}
 

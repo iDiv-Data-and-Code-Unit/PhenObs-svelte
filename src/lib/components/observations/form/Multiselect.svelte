@@ -24,7 +24,11 @@
     { value: record.maintenance.includes('removed'), title: 'Removed' }
   ];
 
-  const handleToggle = () => {
+  const handleToggle = (e: CustomEvent<{ value: boolean; title: string }>) => {
+    const { value, title } = e.detail;
+    const index = maintenance.findIndex((item) => item.title === title);
+    maintenance[index].value = index !== -1 ? value : maintenance[index].value;
+
     dispatch('select', {
       value: maintenance.filter((item) => item.value).map((item) => toSnakeCase(item.title)),
       key,
@@ -34,10 +38,10 @@
 </script>
 
 <div
-  class="lg:col-span-2  md:col-span-3 flex flex-wrap gap-2 items-center"
+  class="lg:col-span-2 md:col-span-3 flex flex-wrap gap-2 items-center"
   transition:scale={{ duration: 300 }}
 >
   {#each maintenance as { value, title } (title)}
-    <MultiselectButton {disabled} bind:value {title} on:toggle={handleToggle} />
+    <MultiselectButton {disabled} {value} {title} on:toggle={handleToggle} />
   {/each}
 </div>
