@@ -84,7 +84,7 @@ export const fields = [
     type: 'intensity',
     name: 'Senescence intensity',
     related: 'senescence',
-    key: ''
+    key: 'senescence_intensity'
   },
   {
     type: 'multiselect',

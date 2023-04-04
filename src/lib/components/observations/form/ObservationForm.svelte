@@ -11,6 +11,22 @@
   export let previousCollection: StoredCollectionType | null;
   let record: RecordType;
   let previousRecord: RecordType | null;
+
+  function copyFromPreviousCollection() {
+    if (record !== undefined && previousRecord !== null) {
+      record = {
+        ...previousRecord,
+        collection: record.collection,
+        editor: record.editor,
+        id: record.id,
+        timestamp_edit: record.timestamp_edit,
+        timestamp_entry: record.timestamp_entry,
+        remarks: record.remarks,
+        no_observation: record.no_observation,
+        done: record.done
+      };
+    }
+  }
 </script>
 
 <form class="text-lg">
@@ -25,7 +41,7 @@
       <button
         class="btn flex lg:gap-5 gap-3 content-center btn-outline"
         disabled={record === undefined}
-        on:click|preventDefault
+        on:click|preventDefault={copyFromPreviousCollection}
       >
         <Files width={20} height={20} />
         <p class="lg:text-xl sm:text-sm text-lg">
