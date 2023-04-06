@@ -16,7 +16,7 @@
 </script>
 
 <div class="grid grid-cols-4 lg:gap-4 gap-2 mt-5 w- items-center justify-between">
-  <label for="noobservation" class="md:text-xl col-span-3 lg:col-span-1"
+  <label for="noobservation" class="md:text-xl col-span-3 lg:col-span-1 font-medium"
     >No observation possible</label
   ><input
     id="noobservation"

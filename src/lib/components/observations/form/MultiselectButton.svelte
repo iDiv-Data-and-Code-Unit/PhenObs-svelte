@@ -9,7 +9,7 @@
 </script>
 
 <button
-  class={`btn ${!value ? 'bg-warning/20 hover:bg-warning/40 btn-ghost' : 'btn-warning'}`}
+  class={`btn ${!value ? 'bg-warning/5 hover:bg-warning/20 text-black/50 20 btn-ghost' : 'btn-warning'}`}
   on:click|preventDefault={() => {
     value = !value;
     dispatch('toggle', { value, title });

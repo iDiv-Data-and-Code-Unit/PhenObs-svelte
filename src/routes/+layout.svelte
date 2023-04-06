@@ -5,6 +5,8 @@
 
   import Navbar from '$lib/components/Navbar.svelte';
   import Login from '$lib/components/Login.svelte';
+  import gardens from '$lib/shared/gardens';
+  import user from '$lib/shared/user';
 
   let loading = true;
   let status: boolean;
@@ -18,9 +20,17 @@
         credentials: 'include'
       });
       displayLogin = !res.ok;
+
+      if (!res.ok) {
+        gardens.logout();
+        user.logout();
+      }
     } catch (error) {
       console.log(error);
       displayLogin = true;
+
+      gardens.logout();
+      user.logout();
     }
 
     loading = false;

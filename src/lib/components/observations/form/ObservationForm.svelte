@@ -23,6 +23,7 @@
         timestamp_entry: record.timestamp_entry,
         remarks: record.remarks,
         no_observation: record.no_observation,
+        maintenance: record.maintenance,
         done: record.done
       };
     }
@@ -39,7 +40,7 @@
     />
     {#if previousCollection !== null}
       <button
-        class="btn flex lg:gap-5 gap-3 content-center btn-outline"
+        class="btn flex lg:gap-5 gap-3 content-center glass text-black/50"
         disabled={record === undefined}
         on:click|preventDefault={copyFromPreviousCollection}
       >

@@ -5,7 +5,7 @@
   import Intensity from './Intensity.svelte';
   import Multiselect from './Multiselect.svelte';
   import Remarks from './Remarks.svelte';
-  import { getButtonValue } from '$lib/shared/app';
+  import { formatDate, getButtonValue } from '$lib/shared/app';
 
   export let record: RecordType;
   export let key: string;
@@ -38,7 +38,9 @@
 </script>
 
 <button
-  class={`btn text-lg btn-outline h-full ${key === 'maintenance' && 'flex gap-2 justify-start p-2'}`}
+  class={`btn text-lg h-full glass  text-black/50 ${
+    key === 'maintenance' && 'flex gap-2 justify-start p-2'
+  }`}
   class:btn-disabled={disabled}
   on:click|preventDefault={() => (display = !display)}
   >{#if type !== 'multiselect'}
@@ -56,7 +58,10 @@
       class="btn btn-sm btn-ghost btn-circle absolute right-2 top-2"
       on:click|preventDefault={() => (display = !display)}>✕</button
     >
-    <h3 class="text-xl font-bold mb-5">{name}</h3>
+    <div class="sm:flex my-5 items-center justify-between">
+      <h3 class="text-xl font-bold">{name}</h3>
+      <div class="badge badge-primary">{formatDate(new Date(record.timestamp_edit))}</div>
+    </div>
 
     {#if display}
       {#if type === 'group'}

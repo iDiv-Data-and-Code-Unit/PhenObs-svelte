@@ -1,3 +1,10 @@
+/**
+ * Returns a formatted string of a date object.
+ *
+ * @param {Date} dateToFormat - The date object to format.
+ * @param {boolean} includeYear - Whether or not to include the year in the formatted string. Default is true.
+ * @returns {string} - The formatted string of the date.
+ */
 export const formatDate = (dateToFormat: Date, includeYear = true): string => {
   const options: Intl.DateTimeFormatOptions = {
     month: 'short',
@@ -8,11 +15,25 @@ export const formatDate = (dateToFormat: Date, includeYear = true): string => {
   return dateToFormat.toLocaleString('en-US', options);
 };
 
-// https://stackoverflow.com/questions/24916090/convert-sentence-case-to-camelcase-in-javascript
+/**
+ * Converts a string in sentence case to camelCase.
+ *
+ * @param {string} text - The sentence case string to convert to camelCase.
+ * @returns {string} - The camelCase version of the input string.
+ *
+ * @see {@link https://stackoverflow.com/questions/24916090/convert-sentence-case-to-camelcase-in-javascript}
+ */
 export const toCamelCase = (text: string) =>
   text.toLowerCase().replace(/\s+(.)/g, (_, group) => group.toUpperCase());
 
-// https://stackoverflow.com/questions/52963900/convert-different-strings-to-snake-case-in-javascript
+/**
+ * Converts a string to snake_case.
+ *
+ * @param {string} text - The string to convert to snake_case.
+ * @returns {string} - The snake_case version of the input string.
+ *
+ * @see {@link https://stackoverflow.com/questions/52963900/convert-different-strings-to-snake-case-in-javascript}
+ */
 export const toSnakeCase = (text: string) => {
   return text
     .replace(/\W+/g, ' ')
@@ -21,6 +42,11 @@ export const toSnakeCase = (text: string) => {
     .join('_');
 };
 
+/**
+ * An object mapping locally stored keys to their corresponding human readable names.
+ *
+ * @type {{ [key: string]: string }}
+ */
 export const mapped: { [key: string]: string } = {
   no: 'no',
   yes: 'y',
@@ -31,12 +57,29 @@ export const mapped: { [key: string]: string } = {
   y: 'yes'
 };
 
+/**
+ * Maps the value of a button based on its type and value.
+ *
+ * @param {string | number | string[]} value - The value of the button.
+ * @param {string} type - The type of the button. Is one of ['group', 'multiselect', 'intensity', 'textarea'].
+ * @returns {string | number} - The mapped value of the button.
+ */
 export const getButtonValue = (value: string | number | string[], type: string) => {
-  return type === 'group' ? mapped[value as string] : value;
+  return type === 'group' ? mapped[value as string] : value === null ? 0 : value;
 };
 
+/**
+ * An array of available choices for a 'group' components and values.
+ *
+ * @type {string[]}
+ */
 export const choices = ['yes', 'unsure', 'missed', 'no'];
 
+/**
+ * An array of details to be recorded per plant.
+ *
+ * @type {object[]}
+ */
 export const fields = [
   {
     type: 'group',

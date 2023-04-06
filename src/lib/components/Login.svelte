@@ -1,7 +1,9 @@
 <script lang="ts">
   import { goto } from '$app/navigation';
-  import imgTransparent from '$lib/assets/PhenObs_Logo_Transparent.png'
-  import imgWhite from '$lib/assets/PhenObs_Logo_Transparent_White.png'
+  import gardens from '$lib/shared/gardens';
+  import user from '$lib/shared/user';
+  import imgTransparent from '$lib/assets/PhenObs_Logo_Transparent.png';
+  import imgWhite from '$lib/assets/PhenObs_Logo_Transparent_White.png';
 
   let username: string = 'user';
   let password: string = 'QazxswedC123!';
@@ -23,12 +25,34 @@
 
       if (response.ok) {
         displayLogin = false;
+
+        const res = await fetch(`http://127.0.0.1:8000/gardens/`, {
+          credentials: 'include'
+        });
+
+        if (res.ok) {
+          const json = await res.json();
+
+          gardens.set({
+            main_garden: json.main_garden,
+            subgardens: json.subgardens
+          });
+          
+          user.set(json.user);
+        } else {
+          gardens.logout();
+          user.logout();
+        }
+
         goto('/');
       } else {
-        // Error logging in - handle error here
+        gardens.logout();
+        user.logout();
       }
     } catch (error) {
       console.error('Error logging in:', error);
+      gardens.logout();
+      user.logout();
     }
   }
 </script>
@@ -37,16 +61,8 @@
   <div class="hero min-h-screen">
     <div class="hero-content flex-col lg:flex-row lg:gap-16">
       <div class="text-center lg:text-left">
-        <img
-          src={imgTransparent}
-          alt="PhenObs Logo"
-          class="w-48 md:w-60 lg:w-80 dark:hidden"
-        />
-        <img
-          src={imgWhite}
-          alt="PhenObs Logo"
-          class="w-48 md:w-60 lg:w-80 dark:block hidden"
-        />
+        <img src={imgTransparent} alt="PhenObs Logo" class="w-48 md:w-60 lg:w-80 dark:hidden" />
+        <img src={imgWhite} alt="PhenObs Logo" class="w-48 md:w-60 lg:w-80 dark:block hidden" />
       </div>
       <div class="card w-full max-w-sm shadow-2xl bg-white/5">
         <div class="card-body">

@@ -43,3 +43,19 @@ export interface StoredCollectionType extends CollectionType {
   edited: boolean;
   uploaded: boolean;
 }
+
+export interface UserType {
+  id: number;
+  username: string;
+  subgarden: number;
+}
+
+export interface GardenType {
+  id: number;
+  name: string;
+}
+
+export interface GardensType {
+  main_garden: GardenType;
+  subgardens: GardenType[];
+}

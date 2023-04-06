@@ -11,6 +11,7 @@
   let sortNumeric = false;
   let selectedPlantName: string = '';
   let selectedPlant: number;
+  let sortedRecords = records;
 
   const changeHandler = (e: Event) => {
     const target = e.target as HTMLSelectElement;
@@ -21,10 +22,20 @@
       ? previousRecords.find((item) => item.plant === selectedPlant)
       : null;
   };
+
+  const switchSorting = () => {
+    sortNumeric = !sortNumeric;
+
+    if (sortNumeric) {
+      sortedRecords = records.sort((a, b) => (a.plant < b.plant ? -1 : 1));
+    } else {
+      sortedRecords = records.sort((a, b) => (a.plant_name < b.plant_name ? -1 : 1));
+    }
+  };
 </script>
 
 <div class="lg:col-span-2 md:col-span-3 gap-1 flex">
-  <button class="btn btn-warning" on:click|preventDefault={() => (sortNumeric = !sortNumeric)}>
+  <button class="btn btn-warning" on:click|preventDefault={switchSorting}>
     {#if sortNumeric}
       <SortAlphaDown width={24} height={24} />
     {:else}

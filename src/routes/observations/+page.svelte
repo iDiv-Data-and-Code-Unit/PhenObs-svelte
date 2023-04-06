@@ -1,18 +1,24 @@
 <script lang="ts">
   import { writable } from 'svelte/store';
+  import type { CollectionType, StoredCollectionType } from '$lib/types';
   import Table from '$lib/components/observations/table/Table.svelte';
   import TableHeader from '$lib/components/observations/table/TableHeader.svelte';
-  import collectionsStore from '$lib/shared/collections';
-  import type { CollectionType, StoredCollectionType } from '$lib/types';
   import CollapseHeader from '$lib/components/observations/table/CollapseHeader.svelte';
+  import collectionsStore from '$lib/shared/collections';
+  import gardensStore from '$lib/shared/gardens';
 
   let loading = false;
+  const gardens = $gardensStore?.subgardens?.map((val) => val.id);
 
   let saved = writable<StoredCollectionType[] | CollectionType[]>(
-    $collectionsStore.filter((item) => item.uploaded && !item.edited)
+    $collectionsStore.filter(
+      (item) => gardens?.includes(item.garden) && item.uploaded && !item.edited
+    )
   );
   let notsaved = writable<StoredCollectionType[]>(
-    $collectionsStore.filter((item) => !item.uploaded || !item.finished)
+    $collectionsStore.filter(
+      (item) => (gardens?.includes(item.garden) && !item.uploaded) || !item.finished
+    )
   );
 
   collectionsStore.subscribe((items) => {
@@ -21,16 +27,16 @@
     );
 
     saved.update((vals) =>
-      vals.filter(
-        (item) =>
-          ('edited' in item &&
-            'uploaded' in item &&
-            item.uploaded &&
-            !item.edited &&
-            item.finished &&
-            items.findIndex((val) => val.id === item.id) !== -1) ||
-          items.findIndex((val) => val.id === item.id) === -1
-      )
+      vals.filter((item) => {
+        return (
+          items.findIndex((val) => val.id === item.id) !== -1 &&
+          'edited' in item &&
+          'uploaded' in item &&
+          item.uploaded &&
+          !item.edited &&
+          item.finished
+        );
+      })
     );
   });
 
@@ -65,9 +71,8 @@
 </script>
 
 <div class="container rounded-lg mt-5 shadow-lg md:p-10 p-5 dark:bg-slate-800">
-  <!-- TODO: Garden name as prop -->
   <TableHeader on:click={getCollections} bind:loading />
-  <div class="md:mt-10 sm:mt-5"></div>
+  <div class="md:mt-10 sm:mt-5" />
   <CollapseHeader title="Not saved"><Table name="notsaved" store={notsaved} /></CollapseHeader>
   <CollapseHeader title="Saved"><Table name="saved" store={saved} /></CollapseHeader>
 </div>
