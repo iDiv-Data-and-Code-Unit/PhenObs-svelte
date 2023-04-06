@@ -1,3 +1,6 @@
+import type { StoredCollectionType } from '$lib/types';
+import collectionsStore from '$lib/shared/collections';
+
 /**
  * Returns a formatted string of a date object.
  *
@@ -13,6 +16,35 @@ export const formatDate = (dateToFormat: Date, includeYear = true): string => {
   };
 
   return dateToFormat.toLocaleString('en-US', options);
+};
+
+/**
+ * Fetches a collection from the server or returns an existing collection from the local storage .
+ * @async
+ * @function
+ * @param {number} id - The ID of the collection to fetch.
+ * @returns {Promise<StoredCollectionType|null>} - A promise that resolves to the fetched collection
+ * or `null` if the collection does not exist.
+ * @throws {Error} - If there is an error fetching the collection.
+ * @example
+ * const collection = await getCollection(123);
+ * console.log(collection); // Logs the fetched collection or `null` if it does not exist.
+ */
+export const getCollection = async (id: number) => {
+  let col: StoredCollectionType | null = collectionsStore.exists(id);
+
+  if (!col || !('records' in col)) {
+    const res = await fetch(`http://127.0.0.1:8000/observations/${id}/`, {
+      credentials: 'include'
+    });
+
+    if (res.ok) {
+      const json = await res.json();
+      collectionsStore.add(json);
+    }
+  }
+
+  return collectionsStore.exists(id);
 };
 
 /**

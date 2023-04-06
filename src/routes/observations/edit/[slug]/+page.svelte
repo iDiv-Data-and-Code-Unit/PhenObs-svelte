@@ -9,6 +9,7 @@
 
   import collectionsStore from '$lib/shared/collections';
   import type { StoredCollectionType } from '$lib/types';
+  import { getCollection } from '$lib/shared/app';
 
   export let data: PageData;
 
@@ -19,28 +20,11 @@
   let showBackToTop = false;
 
   $: showBackToTop = y > height * 0.6;
-  
+
   const id = data.id;
 
   const scrollToTop = () => {
     document.body.scrollIntoView({ behavior: 'smooth' });
-  };
-
-  const getCollection = async (id: number) => {
-    let col: StoredCollectionType | null = collectionsStore.exists(id);
-
-    if (!col) {
-      const res = await fetch(`http://127.0.0.1:8000/observations/${id}/`, {
-        credentials: 'include'
-      });
-
-      if (res.ok) {
-        const json = await res.json();
-        collectionsStore.add(json);
-      }
-    }
-
-    return collectionsStore.exists(id);
   };
 
   onMount(async () => {
