@@ -9,11 +9,13 @@
 </script>
 
 <button
-  class={`btn ${!value ? 'bg-warning/5 hover:bg-warning/20 text-black/50 20 btn-ghost' : 'btn-warning'}`}
+  class={`btn flex gap-3 ${
+    !value ? 'bg-warning/5 hover:bg-warning/20 text-black/50 20 btn-ghost' : 'btn-warning'
+  }`}
   on:click|preventDefault={() => {
     value = !value;
     dispatch('toggle', { value, title });
   }}
   {disabled}
-  >{title}
+  ><input type="checkbox" bind:checked={value} class="checkbox checkbox-sm" /> {title}
 </button>

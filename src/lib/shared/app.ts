@@ -33,7 +33,9 @@ export const formatDate = (dateToFormat: Date, includeYear = true): string => {
 export const getCollection = async (id: number) => {
   let col: StoredCollectionType | null = collectionsStore.exists(id);
 
-  if (!col || !('records' in col)) {
+  if (!col || !('records' in col && col)) {
+    collectionsStore.remove(id);
+
     const res = await fetch(`http://127.0.0.1:8000/observations/${id}/`, {
       credentials: 'include'
     });

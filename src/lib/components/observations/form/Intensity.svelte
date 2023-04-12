@@ -15,6 +15,12 @@
     change: { value: number; key: string; previous: boolean };
   }>();
 
+  const changeHandler = (e: Event) => {
+    const targetValue = (e.target as HTMLInputElement).value;
+    const parsedValue = parseInt(targetValue.slice(0, -1));
+    value = parsedValue;
+  };
+
   $: dispatch('change', {
     value,
     key,
@@ -26,19 +32,19 @@
 </script>
 
 <div
-  class="lg:col-span-2  md:col-span-3 flex gap-2 items-center"
+  class="xl:col-span-2  md:col-span-3 flex gap-2 items-center"
   transition:scale={{ duration: 300 }}
 >
-  <div class="w-min flex justify-between text-xs px-2 ">
-    <span class="text-xl text-center font-bold">{value}%</span>
+  <div class="flex justify-between text-xs mb-2 sm:mb-0 w-full">
+    <select
+      class="select select-warning w-full mr-8 text-center border-2 text-xl"
+      on:change={changeHandler}
+      {disabled}
+    >
+      <option disabled selected />
+      {#each Array.from({ length: 21 }, (_, i) => i * 5) as choice, index (index)}
+        <option selected={choice == value}>{choice}%</option>
+      {/each}
+    </select>
   </div>
-  <input
-    type="range"
-    min="0"
-    max="100"
-    bind:value
-    class={`range grow ${disabled ? 'range-primary' : 'range-warning bg-warning/20'}`}
-    {disabled}
-    {step}
-  />
 </div>

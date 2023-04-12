@@ -38,7 +38,7 @@
 </script>
 
 <div
-  class="lg:col-span-2 md:col-span-3 flex flex-wrap gap-2 items-center"
+  class="xl:col-span-2 md:col-span-3 flex flex-wrap gap-2 items-center"
   transition:scale={{ duration: 300 }}
 >
   {#each maintenance as { value, title } (title)}

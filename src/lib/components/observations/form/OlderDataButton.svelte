@@ -42,6 +42,7 @@
     key === 'maintenance' && 'flex gap-2 justify-start p-2'
   }`}
   class:btn-disabled={disabled}
+  {disabled}
   on:click|preventDefault={() => (display = !display)}
   >{#if type !== 'multiselect'}
     {title}
@@ -65,11 +66,11 @@
 
     {#if display}
       {#if type === 'group'}
-        <ButtonGroup {key} on:choice={updateValue} {disabled} {record} />
+        <ButtonGroup {key} previous={true} on:choice={updateValue} {disabled} {record} />
       {:else if type === 'intensity'}
         <Intensity {key} on:change={updateValue} {disabled} {record} />
       {:else if type === 'multiselect'}
-        <Multiselect {key} on:select={updateValue} {disabled} {record} />
+        <Multiselect {key}on:select={updateValue} {disabled} {record} />
       {:else}
         <Remarks {record} {key} {disabled} on:change={updateValue} />
       {/if}

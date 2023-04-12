@@ -34,7 +34,7 @@
   };
 </script>
 
-<div class="lg:col-span-2 md:col-span-3 gap-1 flex">
+<div class="xl:col-span-2 md:col-span-3 gap-1 flex">
   <button class="btn btn-warning" on:click|preventDefault={switchSorting}>
     {#if sortNumeric}
       <SortAlphaDown width={24} height={24} />
