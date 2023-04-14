@@ -20,15 +20,9 @@ export const formatDate = (dateToFormat: Date, includeYear = true): string => {
 
 /**
  * Fetches a collection from the server or returns an existing collection from the local storage .
- * @async
- * @function
+ * 
  * @param {number} id - The ID of the collection to fetch.
- * @returns {Promise<StoredCollectionType|null>} - A promise that resolves to the fetched collection
- * or `null` if the collection does not exist.
- * @throws {Error} - If there is an error fetching the collection.
- * @example
- * const collection = await getCollection(123);
- * console.log(collection); // Logs the fetched collection or `null` if it does not exist.
+ * @returns {StoredCollectionType|null} - Fetched collection or `null` if the collection does not exist.
  */
 export const getCollection = async (id: number) => {
   let col: StoredCollectionType | null = collectionsStore.exists(id);

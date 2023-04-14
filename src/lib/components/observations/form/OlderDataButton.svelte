@@ -1,11 +1,11 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte';
-  import type { RecordType } from '$lib/types';
-  import ButtonGroup from '$lib/components/observations/form/ButtonGroup.svelte';
+  import ButtonGroup from './ButtonGroup.svelte';
   import Intensity from './Intensity.svelte';
   import Multiselect from './Multiselect.svelte';
   import Remarks from './Remarks.svelte';
   import { formatDate, getButtonValue } from '$lib/shared/app';
+  import type { RecordType } from '$lib/types';
 
   export let record: RecordType;
   export let key: string;
@@ -13,6 +13,7 @@
   export let type: string;
   export let disabled: boolean;
   let value: string | number | string[] = record[key] as string | number;
+  let display = false;
 
   const dispatch = createEventDispatcher<{
     save: { value: string | number | string[]; key: string; previous: boolean };
@@ -34,21 +35,19 @@
     value === record[key]
       ? getButtonValue(value, type)
       : getButtonValue(record[key] as string, type);
-  let display = false;
 </script>
 
 <button
-  class={`btn text-lg h-full glass  text-black/50 ${
+  class={`btn text-lg h-full btn-outline border-dashed border-2 border-gray-300 text-black/50 ${
     key === 'maintenance' && 'flex gap-2 justify-start p-2'
   }`}
-  class:btn-disabled={disabled}
   {disabled}
   on:click|preventDefault={() => (display = !display)}
   >{#if type !== 'multiselect'}
     {title}
   {:else if key === 'maintenance'}
     {#each record[key].map((item) => item.replace('_', ' ')) as item}
-      <div class="text-xs p-2 rounded-lg bg-primary/40 h-max">{item}</div>
+      <div class="text-xs text-start p-2 h-max">{item}</div>
     {/each}
   {/if}</button
 >
@@ -66,11 +65,11 @@
 
     {#if display}
       {#if type === 'group'}
-        <ButtonGroup {key} previous={true} on:choice={updateValue} {disabled} {record} />
+        <ButtonGroup {key} on:choice={updateValue} {disabled} {record} />
       {:else if type === 'intensity'}
         <Intensity {key} on:change={updateValue} {disabled} {record} />
       {:else if type === 'multiselect'}
-        <Multiselect {key}on:select={updateValue} {disabled} {record} />
+        <Multiselect {key} on:select={updateValue} {disabled} {record} />
       {:else}
         <Remarks {record} {key} {disabled} on:change={updateValue} />
       {/if}

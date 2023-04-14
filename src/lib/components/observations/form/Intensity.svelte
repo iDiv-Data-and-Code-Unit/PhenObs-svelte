@@ -35,7 +35,10 @@
   class="xl:col-span-2  md:col-span-3 flex gap-2 items-center"
   transition:scale={{ duration: 300 }}
 >
-  <div class="flex justify-between text-xs mb-2 sm:mb-0 w-full">
+  <div
+    class="flex justify-between text-xs mb-2 sm:mb-0 w-full rounded-lg"
+    class:btn-disabled={disabled}
+  >
     <select
       class="select select-warning w-full mr-8 text-center border-2 text-xl"
       on:change={changeHandler}

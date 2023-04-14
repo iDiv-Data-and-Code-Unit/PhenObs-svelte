@@ -40,7 +40,7 @@
     />
     {#if previousCollection !== null}
       <button
-        class="btn flex lg:gap-5 gap-3 content-center glass text-black/50"
+        class="btn flex lg:gap-5 gap-3 content-center btn-outline border-dashed border-2 border-gray-300 text-black/50"
         disabled={record === undefined}
         on:click|preventDefault={copyFromPreviousCollection}
       >

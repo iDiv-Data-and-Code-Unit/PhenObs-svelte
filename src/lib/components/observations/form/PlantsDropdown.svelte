@@ -35,21 +35,23 @@
 </script>
 
 <div class="xl:col-span-2 md:col-span-3 gap-1 flex">
-  <button class="btn btn-warning" on:click|preventDefault={switchSorting}>
+  <button class="btn btn-warning btn-outline border-2" on:click|preventDefault={switchSorting}>
     {#if sortNumeric}
-      <SortAlphaDown width={24} height={24} />
+      <SortAlphaDown width={24} height={24} color="black" />
     {:else}
-      <SortNumericDown width={24} height={24} />
+      <SortNumericDown width={24} height={24} color="black" />
     {/if}
   </button>
-  <div class="btn p-0 text-xl btn-warning gap-1 relative grow no-animation w-min">
+  <div
+    class="btn p-0 text-xl btn-warning btn-outline border-2 gap-1 relative grow no-animation w-min"
+  >
     <div class="grid grid-cols-1 gap-2 xl:gap-5 font-bold items-center w-full">
       <p
         class="font-semibold truncate whitespace-nowrap overflow-hidden break-all text-black text-xl px-10"
       >
         {selectedPlantName}
       </p>
-      <ChevronDown width={12} height={12} class="items-center absolute right-5 stroke-current" />
+      <ChevronDown width={12} height={12} class="items-center absolute right-5 stroke-current" color="black" />
     </div>
     <select
       id="plant"

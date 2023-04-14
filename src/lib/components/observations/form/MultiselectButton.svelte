@@ -1,5 +1,6 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte';
+  import { Square, CheckSquareFill } from 'svelte-bootstrap-icons';
 
   export let disabled = false;
   export let value: boolean = false;
@@ -9,13 +10,19 @@
 </script>
 
 <button
-  class={`btn flex gap-3 ${
-    !value ? 'bg-warning/5 hover:bg-warning/20 text-black/50 20 btn-ghost' : 'btn-warning'
+  class={`btn flex shrink gap-3 hover:bg-warning/20  btn-ghost justify-start ${
+    !value ? 'text-black/50' : 'border-2 text-black font-medium border-warning'
   }`}
   on:click|preventDefault={() => {
     value = !value;
     dispatch('toggle', { value, title });
   }}
   {disabled}
-  ><input type="checkbox" bind:checked={value} class="checkbox checkbox-sm" /> {title}
+>
+  {#if !value}
+    <Square width={20} height={20} />
+  {:else}
+    <CheckSquareFill width={20} height={20} />
+  {/if}
+  {title}
 </button>

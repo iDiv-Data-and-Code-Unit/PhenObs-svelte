@@ -17,7 +17,7 @@
   };
 
   $: value = record[key] as string;
-  $: console.log(value.length)
+  $: console.log(value.length);
 </script>
 
 <textarea
@@ -25,7 +25,9 @@
   placeholder="..."
   {value}
   on:keyup={handleKeyup}
-  class={`bg-warning/5 font-medium ${
-    record !== undefined && value.length > 0 && 'hover:bg-warning/20 border-2 border-warning'
+  class={`font-medium border-2  ${
+    record !== undefined && value.length > 0
+      ? 'hover:bg-warning/20 border-warning '
+      : 'border-black/50'
   } xl:col-span-2 md:col-span-3 flex grow textarea textarea-lg w-full text-xl`}
 />

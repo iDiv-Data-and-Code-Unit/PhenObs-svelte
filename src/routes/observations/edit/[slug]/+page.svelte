@@ -1,15 +1,12 @@
 <script lang="ts">
-  import { ArrowUp } from 'svelte-bootstrap-icons';
-
-  import type { PageData } from './$types';
   import { onMount } from 'svelte';
+  import type { PageData } from './$types';
+  import { ArrowUp } from 'svelte-bootstrap-icons';
 
   import Calendar from '$lib/components/observations/form/Calendar.svelte';
   import ObservationForm from '$lib/components/observations/form/ObservationForm.svelte';
-
-  import collectionsStore from '$lib/shared/collections';
-  import type { StoredCollectionType } from '$lib/types';
   import { getCollection } from '$lib/shared/app';
+  import type { StoredCollectionType } from '$lib/types';
 
   export let data: PageData;
 
