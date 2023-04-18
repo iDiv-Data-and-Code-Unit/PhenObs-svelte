@@ -20,7 +20,7 @@ export const formatDate = (dateToFormat: Date, includeYear = true): string => {
 
 /**
  * Fetches a collection from the server or returns an existing collection from the local storage .
- * 
+ *
  * @param {number} id - The ID of the collection to fetch.
  * @returns {StoredCollectionType|null} - Fetched collection or `null` if the collection does not exist.
  */

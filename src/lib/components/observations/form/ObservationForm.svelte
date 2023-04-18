@@ -6,11 +6,14 @@
   import ObservationFormRow from './ObservationFormRow.svelte';
   import ObservationInputs from './ObservationInputs.svelte';
   import { formatDate } from '$lib/shared/app';
+  import collectionsStore from '$lib/shared/collections';
 
   export let collection: StoredCollectionType;
   export let previousCollection: StoredCollectionType | null;
   let record: RecordType;
   let previousRecord: RecordType | null;
+  let done = 0;
+  let count = 0;
 
   function copyFromPreviousCollection() {
     if (record !== undefined && previousRecord !== null) {
@@ -27,6 +30,17 @@
         done: record.done
       };
     }
+  }
+
+  collectionsStore.subscribe((collections) => {
+    collection = collections.find((item) => item.id === collection.id) ?? collection;
+    done = collection.records.filter((item) => item.done).length;
+    count = collection.records.length;
+  });
+
+  $: if (count === done) {
+    collection.finished = true;
+    collectionsStore.edit(collection);
   }
 </script>
 
@@ -53,12 +67,7 @@
   </ObservationFormRow>
 
   {#if record !== undefined}
-    <ObservationInputs
-      {record}
-      {previousRecord}
-      done={collection.records.filter((item) => item.done).length}
-      count={collection.records.length}
-    />
+    <ObservationInputs {record} {previousRecord} {done} {count} />
   {:else}
     <p class="flex w-full h-full justify-center my-10">...</p>
   {/if}

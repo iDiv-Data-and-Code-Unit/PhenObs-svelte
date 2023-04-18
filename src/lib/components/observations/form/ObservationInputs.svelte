@@ -30,6 +30,7 @@
       collectionsStore.editRecord(previousRecord);
     } else {
       record[key] = value;
+      record.done = true;
       collectionsStore.editRecord(record);
     }
   };
@@ -75,7 +76,8 @@
     >Cancel</button
   >
   <button
-    class="btn btn-secondary btn-disabled md:text-xl lg:text-2xl md:p-12 text-lg p-6 py-8 content-center w-max grow md:grow-0"
+    class="btn btn-secondary md:text-xl lg:text-2xl md:p-12 text-lg p-6 py-8 content-center w-max grow md:grow-0"
+    class:btn-disabled={done !== count}
     >Done {done}/{count}</button
   >
 </div>

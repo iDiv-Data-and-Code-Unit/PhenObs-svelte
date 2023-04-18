@@ -2,6 +2,8 @@
   import { SortAlphaDown, SortNumericDown, ChevronDown } from 'svelte-bootstrap-icons';
 
   import type { RecordType } from '$lib/types';
+  import Modal from '$lib/components/Modal.svelte';
+  import collectionsStore from '$lib/shared/collections';
 
   export let record: RecordType | undefined;
   export let records: RecordType[];
@@ -10,13 +12,32 @@
 
   let sortNumeric = false;
   let selectedPlantName: string = '';
+  let selectedPlantIndex: number;
   let selectedPlant: number;
   let sortedRecords = records;
+  let modalHidden = true;
+
+  const markDone = () => {
+    if (record !== undefined) {
+      record.done = true;
+      collectionsStore.editRecord(record);
+      modalHidden = true;
+    }
+  };
 
   const changeHandler = (e: Event) => {
     const target = e.target as HTMLSelectElement;
+
+    if (record !== undefined && !record.done) {
+      modalHidden = false;
+      target.selectedIndex = selectedPlantIndex;
+      return;
+    }
+
+    selectedPlantIndex = target.selectedIndex;
     selectedPlantName = target.selectedOptions[0].innerText;
     selectedPlant = parseInt(target.value);
+
     record = records.find((item) => item.plant === selectedPlant);
     previousRecord = previousRecords
       ? previousRecords.find((item) => item.plant === selectedPlant)
@@ -27,9 +48,11 @@
     sortNumeric = !sortNumeric;
 
     if (sortNumeric) {
-      sortedRecords = records.sort((a, b) => (a.plant < b.plant ? -1 : 1));
+      sortedRecords = records.sort((a, b) => a.plant - b.plant);
+      selectedPlantIndex = sortedRecords.findIndex((item) => item.plant === selectedPlant);
     } else {
-      sortedRecords = records.sort((a, b) => (a.plant_name < b.plant_name ? -1 : 1));
+      sortedRecords = records.sort((a, b) => a.plant_name.localeCompare(b.plant_name));
+      selectedPlantIndex = sortedRecords.findIndex((item) => item.plant === selectedPlant);
     }
   };
 </script>
@@ -51,7 +74,12 @@
       >
         {selectedPlantName}
       </p>
-      <ChevronDown width={12} height={12} class="items-center absolute right-5 stroke-current" color="black" />
+      <ChevronDown
+        width={12}
+        height={12}
+        class="items-center absolute right-5 stroke-current"
+        color="black"
+      />
     </div>
     <select
       id="plant"
@@ -59,9 +87,13 @@
       on:change={changeHandler}
     >
       <option disabled selected value />
-      {#each records as { plant, plant_name } (plant)}
+      {#each sortedRecords as { plant, plant_name } (plant)}
         <option value={plant}>{plant_name}</option>
       {/each}
     </select>
   </div>
 </div>
+
+<Modal bind:hidden={modalHidden} on:click={markDone}
+  >You have not changed any default value. Are you sure you want to move on?</Modal
+>

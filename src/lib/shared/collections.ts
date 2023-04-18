@@ -98,6 +98,7 @@ const collectionsStore = {
       const collection = items[collectionIndex];
       const recordIndex = collection?.records.findIndex((item) => item.id === data.id);
       items[collectionIndex].records[recordIndex] = data;
+      items[collectionIndex].edited = true;
 
       window.localStorage.setItem('collections', JSON.stringify(items));
       return items;
