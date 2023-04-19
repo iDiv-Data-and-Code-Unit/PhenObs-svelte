@@ -93,10 +93,12 @@
       <span class="truncate">admin</span>
     </button>
   </div>
-  <h1 class="text-3xl font-semibold my-5">Add observation</h1>
 
   {#if collection !== null}
+    <h1 class="text-3xl font-semibold my-5">Add observation</h1>
     <ObservationForm {collection} {previousCollection} />
+  {:else}
+    <p class="text-xl my-5 text-center">Select a garden to add an observation.</p>
   {/if}
 
   <button

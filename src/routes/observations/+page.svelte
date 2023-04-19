@@ -20,15 +20,10 @@
   collectionsStore.subscribe((items) => {
     notsaved.set(items.filter((item) => gardens?.includes(item.garden) && !item.uploaded));
 
-    saved.update((vals) =>
-      vals.filter((item) => {
-        return (
-          gardens?.includes(item.garden) &&
-          (items.findIndex((val) => val.id === item.id) !== -1 ||
-            ('uploaded' in item && item.uploaded))
-        );
-      })
-    );
+    saved.update((vals) => [
+      ...items.filter((item) => gardens?.includes(item.garden) && item.uploaded),
+      ...vals.filter((item) => !('uploaded' in item))
+    ]);
   });
 
   const getCollections = async () => {
