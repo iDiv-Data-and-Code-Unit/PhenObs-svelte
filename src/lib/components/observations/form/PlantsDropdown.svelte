@@ -4,11 +4,14 @@
   import type { RecordType } from '$lib/types';
   import Modal from '$lib/components/Modal.svelte';
   import collectionsStore from '$lib/shared/collections';
+  import Alert from '$lib/components/Alert.svelte';
+  import { onMount } from 'svelte';
 
   export let record: RecordType | undefined;
   export let records: RecordType[];
   export let previousRecord: RecordType | null | undefined;
   export let previousRecords: RecordType[] | null;
+  export let noObservation: boolean;
 
   let sortNumeric = false;
   let selectedPlantName: string = '';
@@ -16,6 +19,7 @@
   let selectedPlant: number;
   let sortedRecords = records;
   let modalHidden = true;
+  let alertHidden = true;
 
   const markDone = () => {
     if (record !== undefined) {
@@ -30,6 +34,10 @@
 
     if (record !== undefined && !record.done) {
       modalHidden = false;
+      target.selectedIndex = selectedPlantIndex;
+      return;
+    } else if (noObservation && record?.remarks.length === 0) {
+      alertHidden = false;
       target.selectedIndex = selectedPlantIndex;
       return;
     }
@@ -55,16 +63,26 @@
       selectedPlantIndex = sortedRecords.findIndex((item) => item.plant === selectedPlant);
     }
   };
+
+  onMount(() => {
+    sortNumeric = true;
+    switchSorting();
+  });
 </script>
 
 <div class="xl:col-span-2 md:col-span-3 gap-1 flex">
-  <button class="btn btn-warning btn-outline border-2" on:click|preventDefault={switchSorting}>
-    {#if sortNumeric}
-      <SortAlphaDown width={24} height={24} color="black" />
-    {:else}
-      <SortNumericDown width={24} height={24} color="black" />
-    {/if}
-  </button>
+  <div
+    class="tooltip tooltip-primary"
+    data-tip={`Switch to sorting by ${sortNumeric ? 'name' : 'order'}`}
+  >
+    <button class="btn btn-warning btn-outline border-2" on:click|preventDefault={switchSorting}>
+      {#if sortNumeric}
+        <SortAlphaDown width={24} height={24} color="black" />
+      {:else}
+        <SortNumericDown width={24} height={24} color="black" />
+      {/if}
+    </button>
+  </div>
   <div
     class="btn p-0 text-xl btn-warning btn-outline border-2 gap-1 relative grow no-animation w-min"
   >
@@ -96,4 +114,8 @@
 
 <Modal bind:hidden={modalHidden} on:click={markDone}
   >You have not changed any default value. Are you sure you want to move on?</Modal
+>
+
+<Alert bind:hidden={alertHidden} on:click={() => (alertHidden = true)}
+  >Please fill in the <span class="italic font-bold">Remarks</span> field before moving on.</Alert
 >

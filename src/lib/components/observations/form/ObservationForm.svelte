@@ -12,6 +12,7 @@
   export let previousCollection: StoredCollectionType | null;
   let record: RecordType;
   let previousRecord: RecordType | null;
+  let noObservation: boolean;
   let done = 0;
   let count = 0;
 
@@ -41,6 +42,7 @@
         : previousCollection.records?.find((item) => item.plant === record?.plant) ?? null;
     done = collection.records.filter((item) => item.done).length;
     count = collection.records.length;
+    noObservation = record?.no_observation;
   });
 
   $: if (count === done) {
@@ -56,6 +58,7 @@
       previousRecords={previousCollection?.records || null}
       bind:record
       bind:previousRecord
+      bind:noObservation
     />
     {#if previousCollection !== null}
       <button
