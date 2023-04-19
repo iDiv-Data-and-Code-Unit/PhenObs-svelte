@@ -7,12 +7,13 @@
 
   import userStore from '$lib/shared/user';
   import collectionsStore from '$lib/shared/collections';
-  import { getCollection } from '$lib/shared/app';
+  import { dateChangeHandler, getCollection } from '$lib/shared/app';
   import type { StoredCollectionType } from '$lib/types';
 
   let height: number;
   let y: number;
   let showBackToTop = false;
+  let date: Date;
   let collections: StoredCollectionType[] = [];
   let collection: StoredCollectionType | null = null;
   let previousCollection: StoredCollectionType | null = null;
@@ -53,6 +54,10 @@
     }
   };
 
+  const dateChangeHandlerMiddleware = async (e: CustomEvent<Date>) => {
+    [collection, previousCollection] = await dateChangeHandler(e, collection, previousCollection);
+  };
+
   const gardenChangeHandler = async (e: CustomEvent<number>) => {
     const garden = e.detail;
 
@@ -65,6 +70,8 @@
     } else {
       await createCollection(garden);
     }
+
+    date = collection !== null ? new Date((collection as StoredCollectionType).date) : new Date();
   };
 
   onMount(() => (height = document.body.scrollHeight));
@@ -74,9 +81,8 @@
 
 <div class="container rounded-lg mt-5 shadow-lg md:p-10 p-5 dark:bg-white dark:bg-opacity-10">
   <h1 class="text-4xl font-semibold">Add collection</h1>
-  <!-- TODO: Add functionality to the calendar and garden selector -->
   <div class="grid lg:grid-cols-4 lg:gap-4 gap-2 mt-5">
-    <Calendar />
+    <Calendar {date} on:change={dateChangeHandlerMiddleware} />
 
     <div class="lg:col-span-2"><Subgarden on:change={gardenChangeHandler} /></div>
 

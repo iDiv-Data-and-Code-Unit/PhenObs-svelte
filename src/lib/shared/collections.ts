@@ -23,6 +23,8 @@ const collectionsStore = {
       const index = values.findIndex((item) => item.id === data.id);
       if (index !== -1) {
         values[index] = data;
+        values[index].edited = true;
+        values[index].uploaded = false;
         done = true;
       }
       window.localStorage.setItem('collections', JSON.stringify(values));
@@ -99,6 +101,7 @@ const collectionsStore = {
       const recordIndex = collection?.records.findIndex((item) => item.id === data.id);
       items[collectionIndex].records[recordIndex] = data;
       items[collectionIndex].edited = true;
+      items[collectionIndex].uploaded = false;
 
       window.localStorage.setItem('collections', JSON.stringify(items));
       return items;

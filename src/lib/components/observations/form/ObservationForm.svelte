@@ -34,6 +34,11 @@
 
   collectionsStore.subscribe((collections) => {
     collection = collections.find((item) => item.id === collection.id) ?? collection;
+    previousCollection = collections.find((item) => item.id === collection.prev_collection) ?? null;
+    previousRecord =
+      previousCollection === null
+        ? null
+        : previousCollection.records?.find((item) => item.plant === record?.plant) ?? null;
     done = collection.records.filter((item) => item.done).length;
     count = collection.records.length;
   });

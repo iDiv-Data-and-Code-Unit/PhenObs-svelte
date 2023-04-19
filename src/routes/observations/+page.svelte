@@ -11,30 +11,21 @@
   const gardens = $gardensStore?.subgardens?.map((val) => val.id);
 
   let saved = writable<StoredCollectionType[] | CollectionType[]>(
-    $collectionsStore.filter(
-      (item) => gardens?.includes(item.garden) && item.uploaded && !item.edited
-    )
+    $collectionsStore.filter((item) => gardens?.includes(item.garden) && item.uploaded)
   );
   let notsaved = writable<StoredCollectionType[]>(
-    $collectionsStore.filter(
-      (item) => (gardens?.includes(item.garden) && !item.uploaded) || !item.finished
-    )
+    $collectionsStore.filter((item) => gardens?.includes(item.garden) && !item.uploaded)
   );
 
   collectionsStore.subscribe((items) => {
-    notsaved.update((vals) =>
-      vals.filter((item) => items.findIndex((val) => val.id === item.id) !== -1)
-    );
+    notsaved.set(items.filter((item) => gardens?.includes(item.garden) && !item.uploaded));
 
     saved.update((vals) =>
       vals.filter((item) => {
         return (
-          items.findIndex((val) => val.id === item.id) !== -1 &&
-          'edited' in item &&
-          'uploaded' in item &&
-          item.uploaded &&
-          !item.edited &&
-          item.finished
+          gardens?.includes(item.garden) &&
+          (items.findIndex((val) => val.id === item.id) !== -1 ||
+            ('uploaded' in item && item.uploaded))
         );
       })
     );
@@ -52,17 +43,27 @@
     saved.set(results.database);
     notsaved.set(results.local);
 
-    for (let collection of $notsaved) {
-      if (collection.uploaded && !collection.edited) {
+    for (let collection of results.local) {
+      if (!collection.uploaded) {
         saved.update((items) => {
           const index = items.findIndex((item) => item.id === collection.id);
           if (index !== -1) {
             items.splice(index, 1);
           }
 
-          return [collection, ...items];
+          return items;
         });
-        notsaved.update((items) => items.filter((item) => item.id !== collection.id));
+      } else {
+        notsaved.update((items) => {
+          const index = items.findIndex((item) => item.id === collection.id);
+          if (index !== -1) {
+            items.splice(index, 1);
+          }
+
+          return items;
+        });
+
+        saved.update((items) => [collection, ...items]);
       }
     }
 

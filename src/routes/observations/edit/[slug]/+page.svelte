@@ -5,13 +5,14 @@
 
   import Calendar from '$lib/components/observations/form/Calendar.svelte';
   import ObservationForm from '$lib/components/observations/form/ObservationForm.svelte';
-  import { getCollection } from '$lib/shared/app';
+  import { dateChangeHandler, getCollection } from '$lib/shared/app';
   import type { StoredCollectionType } from '$lib/types';
 
   export let data: PageData;
 
   let collection: StoredCollectionType | null = null;
   let previousCollection: StoredCollectionType | null = null;
+  let date: Date;
   let height: number;
   let y: number;
   let showBackToTop = false;
@@ -24,6 +25,10 @@
     document.body.scrollIntoView({ behavior: 'smooth' });
   };
 
+  const dateChangeHandlerMiddleware = async (e: CustomEvent<Date>) => {
+    [collection, previousCollection] = await dateChangeHandler(e, collection, previousCollection);
+  };
+
   onMount(async () => {
     height = document.body.scrollHeight;
 
@@ -31,6 +36,8 @@
     if (collection && collection['prev_collection'] !== null) {
       previousCollection = await getCollection(collection['prev_collection']);
     }
+
+    date = collection !== null ? new Date((collection as StoredCollectionType).date) : new Date();
   });
 </script>
 
@@ -38,17 +45,18 @@
 
 <div class="container rounded-lg mt-5 shadow-lg md:p-10 p-5 dark:bg-white dark:bg-opacity-10">
   <h1 class="text-4xl font-semibold">Edit collection</h1>
-  <!-- TODO: Add functionality to the calendar and garden selector -->
   <div class="grid lg:grid-cols-4 lg:gap-4 gap-2 mt-5">
-    <Calendar />
+    <Calendar {date} on:change={dateChangeHandlerMiddleware} />
 
     <div class="lg:col-span-2">
       <button
-        class="no-animation w-full btn btn-disabled  flex gap-2 xl:gap-5 lg:py-14 py-10 content-center justify-center text-xl relative"
+        class="w-full btn btn-disabled  flex gap-2 xl:gap-5 lg:py-14 py-10 content-center justify-center text-xl relative"
       >
         <div class="grid grid-flow-col gap-2 xl:gap-5 font-bold items-center">
           Garden
-          <p class="font-normal truncate whitespace-nowrap overflow-hidden break-all">Ökologie</p>
+          <p class="font-normal truncate whitespace-nowrap overflow-hidden break-all">
+            {collection?.subgarden_name}
+          </p>
         </div></button
       >
     </div>
@@ -57,7 +65,7 @@
       class="btn btn-disabled grid grid-flow-col gap-2 xl:gap-5 items-center text-xl w-full lg:py-14 py-10 content-center"
     >
       <p class="font-bold">Creator</p>
-      <span class="truncate">admin</span>
+      <span class="truncate">{collection?.creator_username}</span>
     </button>
   </div>
   <h1 class="text-3xl font-semibold my-5">Edit observation</h1>

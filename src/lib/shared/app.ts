@@ -1,4 +1,4 @@
-import type { StoredCollectionType } from '$lib/types';
+import type { CollectionType, StoredCollectionType } from '$lib/types';
 import collectionsStore from '$lib/shared/collections';
 
 /**
@@ -41,6 +41,47 @@ export const getCollection = async (id: number) => {
   }
 
   return collectionsStore.exists(id);
+};
+
+/**
+ * Updates the date of a stored collection and fetches the previous collection, if it exists, based on the new date.
+ *
+ * @param {CustomEvent<Date>} e - The event object containing the new date value.
+ * @param {StoredCollectionType|null} collection - The stored collection to update the date for.
+ * @param {StoredCollectionType|null} previousCollection - The latest finished collection in the same garden for the given colleciton with the new date, if it exists.
+ * @returns {[StoredCollectionType|null, StoredCollectionType|null]} - A tuple of the updated collection and the previous collection, if it exists.
+ */
+export const dateChangeHandler = async (
+  e: CustomEvent<Date>,
+  collection: StoredCollectionType | null,
+  previousCollection: StoredCollectionType | null
+) => {
+  if (collection) {
+    collection.date = e.detail.toISOString().split('T')[0];
+    collectionsStore.edit(collection);
+
+    const res = await fetch(
+      `http://127.0.0.1:8000/observations/${collection?.id}/?date=${e.detail.getTime() / 1000}`,
+      {
+        credentials: 'include'
+      }
+    );
+
+    if (res.ok) {
+      const json: CollectionType = await res.json();
+      collection.prev_collection = json.id;
+      collectionsStore.edit(collection);
+      previousCollection = await getCollection(collection['prev_collection']);
+    } else if (res.status === 404) {
+      collection.prev_collection = null;
+      collectionsStore.edit(collection);
+      previousCollection = null;
+    } else {
+      console.log('Error', res);
+    }
+  }
+
+  return [collection, previousCollection];
 };
 
 /**
