@@ -8,11 +8,10 @@
   export let key: string;
   export let step: number = 5;
   export let disabled = false;
-  let initial: number | null;
-  let value: number;
+  let value: number | null;
 
   const dispatch = createEventDispatcher<{
-    change: { value: number; key: string; previous: boolean };
+    change: { value: number | null; key: string; previous: boolean };
   }>();
 
   const changeHandler = (e: Event) => {
@@ -27,8 +26,7 @@
     previous: false
   });
 
-  $: initial = record[key] as number | null;
-  $: value = initial === null ? 0 : (initial as number);
+  $: value = record[key] as number | null;
 </script>
 
 <div
@@ -41,12 +39,14 @@
   >
     <select
       class="select select-warning w-full mr-8 text-center border-2 text-xl"
+      class:select-error={(!disabled && value === 0) || value === null}
+      required={!disabled}
       on:change={changeHandler}
       {disabled}
     >
-      <option disabled selected />
-      {#each Array.from({ length: 21 }, (_, i) => i * 5) as choice, index (index)}
-        <option selected={choice == value}>{choice}%</option>
+      <option disabled selected={value === null} />
+      {#each Array.from({ length: 20 }, (_, i) => (i + 1) * step) as choice, index (index)}
+        <option selected={choice === value}>{choice}%</option>
       {/each}
     </select>
   </div>

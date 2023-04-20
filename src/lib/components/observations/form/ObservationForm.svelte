@@ -10,14 +10,16 @@
 
   export let collection: StoredCollectionType;
   export let previousCollection: StoredCollectionType | null;
-  let record: RecordType;
+  let record: RecordType | undefined;
   let previousRecord: RecordType | null;
+
   let noObservation: boolean;
+
   let done = 0;
   let count = 0;
 
   function copyFromPreviousCollection() {
-    if (record !== undefined && previousRecord !== null) {
+    if (record !== undefined && record !== null && previousRecord !== null) {
       record = {
         ...previousRecord,
         collection: record.collection,
@@ -33,16 +35,19 @@
     }
   }
 
-  collectionsStore.subscribe((collections) => {
+  $: collectionsStore.subscribe((collections) => {
     collection = collections.find((item) => item.id === collection.id) ?? collection;
-    previousCollection = collections.find((item) => item.id === collection.prev_collection) ?? null;
+    previousCollection = collection.prev_collection
+      ? collections.find((item) => item.id === collection.prev_collection) ?? null
+      : null;
+    record = collection.records.find((item) => item.plant === record?.plant);
     previousRecord =
       previousCollection === null
         ? null
-        : previousCollection.records?.find((item) => item.plant === record?.plant) ?? null;
+        : previousCollection.records.find((item) => item.plant === record?.plant) ?? null;
     done = collection.records.filter((item) => item.done).length;
     count = collection.records.length;
-    noObservation = record?.no_observation;
+    noObservation = record?.no_observation ?? noObservation;
   });
 
   $: if (count === done) {
@@ -55,10 +60,9 @@
   <ObservationFormRow label="Plant">
     <PlantsDropdown
       records={collection.records}
-      previousRecords={previousCollection?.records || null}
+      previousRecords={previousCollection?.records ?? null}
       bind:record
       bind:previousRecord
-      bind:noObservation
     />
     {#if previousCollection !== null}
       <button

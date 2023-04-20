@@ -43,7 +43,7 @@
       collection = collectionsStore.exists(id);
 
       if (collection !== null) {
-        collections.push(collection);
+        collections = [...collections, collection];
       }
     } else {
       console.log('Error', res);
@@ -62,8 +62,6 @@
     const garden = e.detail;
 
     const index = collections.findIndex((item) => item.garden === garden);
-
-    console.log(garden, index);
 
     if (index !== -1) {
       collection = collections[index];
@@ -84,7 +82,7 @@
   <div class="grid lg:grid-cols-4 lg:gap-4 gap-2 mt-5">
     <Calendar {date} on:change={dateChangeHandlerMiddleware} />
 
-    <div class="lg:col-span-2"><Subgarden on:change={gardenChangeHandler} /></div>
+    <div class="lg:col-span-2"><Subgarden bind:collections on:change={gardenChangeHandler} /></div>
 
     <button
       class="btn btn-disabled grid grid-flow-col gap-2 xl:gap-5 items-center text-xl w-full lg:py-14 py-10 content-center"

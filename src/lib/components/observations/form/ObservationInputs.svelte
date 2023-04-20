@@ -5,7 +5,7 @@
   import Intensity from './Intensity.svelte';
   import Multiselect from './Multiselect.svelte';
   import Toggle from './Toggle.svelte';
-  import { toCamelCase } from '$lib/shared/app';
+  import { isDone, toCamelCase } from '$lib/shared/app';
   import type { RecordType } from '$lib/types';
   import collectionsStore from '$lib/shared/collections';
   import { fields } from '$lib/shared/app';
@@ -30,7 +30,8 @@
       collectionsStore.editRecord(previousRecord);
     } else {
       record[key] = value;
-      record.done = true;
+      record.done = isDone(record);
+
       collectionsStore.editRecord(record);
     }
   };

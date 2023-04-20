@@ -5,21 +5,19 @@
   import Modal from '$lib/components/Modal.svelte';
   import collectionsStore from '$lib/shared/collections';
   import Alert from '$lib/components/Alert.svelte';
-  import { onMount } from 'svelte';
 
   export let record: RecordType | undefined;
   export let records: RecordType[];
-  export let previousRecord: RecordType | null | undefined;
+  export let previousRecord: RecordType | null;
   export let previousRecords: RecordType[] | null;
-  export let noObservation: boolean;
 
   let sortNumeric = false;
   let selectedPlantName: string = '';
   let selectedPlantIndex: number;
   let selectedPlant: number;
-  let sortedRecords = records;
   let modalHidden = true;
   let alertHidden = true;
+  let alertMessage: string;
 
   const markDone = () => {
     if (record !== undefined) {
@@ -32,11 +30,22 @@
   const changeHandler = (e: Event) => {
     const target = e.target as HTMLSelectElement;
 
-    if (record !== undefined && !record.done) {
+    if (record !== undefined && record !== null && !record.done) {
       modalHidden = false;
       target.selectedIndex = selectedPlantIndex;
       return;
-    } else if (noObservation && record?.remarks.length === 0) {
+    }
+
+    if (record?.no_observation && record?.remarks.length === 0) {
+      alertMessage = 'noObservation';
+      alertHidden = false;
+      target.selectedIndex = selectedPlantIndex;
+      return;
+    } else if (
+      (record?.flowers_open === 'y' && record.flowering_intensity === null) ||
+      (record?.senescence === 'y' && record.senescence_intensity === null)
+    ) {
+      alertMessage = 'intensity';
       alertHidden = false;
       target.selectedIndex = selectedPlantIndex;
       return;
@@ -48,12 +57,12 @@
 
     record = records.find((item) => item.plant === selectedPlant);
     previousRecord = previousRecords
-      ? previousRecords.find((item) => item.plant === selectedPlant)
+      ? previousRecords.find((item) => item.plant === selectedPlant) ?? null
       : null;
   };
 
-  const switchSorting = () => {
-    sortNumeric = !sortNumeric;
+  const getSorted = () => {
+    let sortedRecords;
 
     if (sortNumeric) {
       sortedRecords = records.sort((a, b) => a.plant - b.plant);
@@ -62,12 +71,15 @@
       sortedRecords = records.sort((a, b) => a.plant_name.localeCompare(b.plant_name));
       selectedPlantIndex = sortedRecords.findIndex((item) => item.plant === selectedPlant);
     }
-  };
 
-  onMount(() => {
-    sortNumeric = true;
-    switchSorting();
-  });
+    return sortedRecords;
+  };
+  
+  $: sorted = records && getSorted();
+  $: if (selectedPlantIndex === -1) {
+    selectedPlantName = '';
+    selectedPlant = -1;
+  }
 </script>
 
 <div class="xl:col-span-2 md:col-span-3 gap-1 flex">
@@ -75,7 +87,13 @@
     class="tooltip tooltip-primary"
     data-tip={`Switch to sorting by ${sortNumeric ? 'name' : 'order'}`}
   >
-    <button class="btn btn-warning btn-outline border-2" on:click|preventDefault={switchSorting}>
+    <button
+      class="btn btn-warning btn-outline border-2"
+      on:click|preventDefault={() => {
+        sortNumeric = !sortNumeric;
+        sorted = getSorted();
+      }}
+    >
       {#if sortNumeric}
         <SortAlphaDown width={24} height={24} color="black" />
       {:else}
@@ -105,7 +123,7 @@
       on:change={changeHandler}
     >
       <option disabled selected value />
-      {#each sortedRecords as { plant, plant_name } (plant)}
+      {#each sorted as { plant, plant_name } (plant)}
         <option value={plant}>{plant_name}</option>
       {/each}
     </select>
@@ -116,6 +134,10 @@
   >You have not changed any default value. Are you sure you want to move on?</Modal
 >
 
-<Alert bind:hidden={alertHidden} on:click={() => (alertHidden = true)}
-  >Please fill in the <span class="italic font-bold">Remarks</span> field before moving on.</Alert
->
+<Alert bind:hidden={alertHidden} on:click={() => (alertHidden = true)}>
+  {#if alertMessage === 'noObservation'}
+    Please fill in the <span class="italic font-bold">Remarks</span> field before moving on.
+  {:else if alertMessage === 'intensity'}
+    Please fill in the marked <span class="italic font-bold">intensity</span> fields before moving on.
+  {/if}
+</Alert>

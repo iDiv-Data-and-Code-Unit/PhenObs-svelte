@@ -1,4 +1,4 @@
-import type { CollectionType, StoredCollectionType } from '$lib/types';
+import type { CollectionType, RecordType, StoredCollectionType } from '$lib/types';
 import collectionsStore from '$lib/shared/collections';
 
 /**
@@ -41,6 +41,19 @@ export const getCollection = async (id: number) => {
   }
 
   return collectionsStore.exists(id);
+};
+
+/**
+ * Determines if a record is considered "done" based on certain criteria.
+ * @param {RecordType} record - The record to check.
+ * @returns {boolean} - True if the record meets the criteria, false otherwise.
+ */
+export const isDone = (record: RecordType) => {
+  return (record.no_observation && record.remarks.length === 0) ||
+    (record.flowers_open === 'y' && record.flowering_intensity === null) ||
+    (record.senescence === 'y' && record.senescence_intensity === null)
+    ? false
+    : true;
 };
 
 /**

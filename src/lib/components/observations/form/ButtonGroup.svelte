@@ -15,12 +15,6 @@
     choice: { value: string; key: string; previous: boolean };
   }>();
 
-  $: dispatch('choice', {
-    value: mapped[value],
-    key,
-    previous: false
-  });
-
   $: value = mapped[record[key] as string];
 </script>
 
@@ -33,6 +27,11 @@
         }`}
         on:click|preventDefault={() => {
           value = choice;
+          dispatch('choice', {
+            value: mapped[value],
+            key,
+            previous: false
+          });
         }}
         {disabled}
         ><p class:font-bold={value === choice} class="flex gap-3 items-center">

@@ -21,7 +21,7 @@
 </script>
 
 <button
-  class="btn btn-secondary btn-outline flex xl:gap-10 gap-5 lg:py-14 py-10 content-center justify-center text-xl relative"
+  class="btn btn-secondary btn-outline flex xl:gap-10 gap-5 lg:py-14 py-10 content-center justify-center text-xl relative border-2"
 >
   <p>{dateStrFormatted}</p>
   <Calendar2Fill width={24} height={24} />
