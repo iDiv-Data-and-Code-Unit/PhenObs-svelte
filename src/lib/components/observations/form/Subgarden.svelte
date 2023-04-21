@@ -1,6 +1,6 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte';
-  import { ChevronDown } from 'svelte-bootstrap-icons';
+  import { ChevronDown, Plus, HddFill } from 'svelte-bootstrap-icons';
   import gardensStore from '$lib/shared/gardens';
   import type { GardenType, StoredCollectionType } from '$lib/types';
 
@@ -41,13 +41,25 @@
   </label>
 
   <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
-  <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-full gap-1">
+  <ul
+    tabindex="0"
+    class="dropdown-content grid menu p-2 shadow bg-base-100 rounded-box w-full gap-1 max-h-96 overflow-y-auto"
+  >
     {#each subgardens as { id, name } (name)}
       <li>
         <button
-          class={`btn ${offlineCollections.includes(id) ? 'btn-warning' : 'btn-ghost'}`}
-          on:click={(e) => clickHandler(e, name, id)}>{name}</button
+          class="btn justify-start w-full flex-nowrap flex text-start"
+          class:btn-primary={id === selectedSubgarden}
+          class:btn-ghost={id !== selectedSubgarden}
+          on:click={(e) => clickHandler(e, name, id)}
         >
+          {#if offlineCollections.includes(id)}
+            <HddFill width={24} height={24} />
+          {:else}
+            <Plus width={24} height={24} />
+          {/if}
+          <p class="break-all">{name}</p>
+        </button>
       </li>
     {/each}
   </ul>

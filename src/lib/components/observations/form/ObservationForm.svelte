@@ -12,9 +12,7 @@
   export let previousCollection: StoredCollectionType | null;
   let record: RecordType | undefined;
   let previousRecord: RecordType | null;
-
   let noObservation: boolean;
-
   let done = 0;
   let count = 0;
 

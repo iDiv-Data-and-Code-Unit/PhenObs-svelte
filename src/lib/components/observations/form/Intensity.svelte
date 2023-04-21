@@ -4,7 +4,6 @@
   import { scale } from 'svelte/transition';
 
   export let record: RecordType;
-
   export let key: string;
   export let step: number = 5;
   export let disabled = false;
