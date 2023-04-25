@@ -9,9 +9,11 @@
   const { finished } = row as CollectionType;
   let displayModal = false;
   let local = false;
+  let edited = false;
 
   if (row !== null && 'edited' in row && 'uploaded' in row) {
     local = true;
+    edited = row.edited as boolean;
   }
 
   const deleteStoredCollection = () => {
@@ -22,23 +24,35 @@
 
 <div class="flex gap-2">
   <div class="btn-square">
-    {#if local && finished}
-      <button class="btn btn-secondary btn-outline border-0 btn-square">
-        <DatabaseFillUp width={20} height={20} />
-      </button>
-    {/if}
+    <div class="tooltip tooltip-primary" data-tip="Edit">
+      <a
+        class="btn btn-secondary btn-outline border-0 btn-square"
+        href={`/observations/edit/${row?.id}`}
+      >
+        <PencilFill width={20} height={20} />
+      </a>
+    </div>
   </div>
   <div class="btn-square">
     {#if local}
-      <button class="btn btn-warning btn-outline border-0 btn-square" on:click={() => (displayModal = true)}>
-        <TrashFill width={20} height={20} />
-      </button>
+      <div class="tooltip tooltip-primary" data-tip="Delete from device">
+        <button
+          class="btn btn-warning btn-outline border-0 btn-square"
+          on:click={() => (displayModal = true)}
+        >
+          <TrashFill width={20} height={20} />
+        </button>
+      </div>
     {/if}
   </div>
   <div class="btn-square">
-    <a class="btn btn-secondary btn-outline border-0 btn-square" href={`/observations/edit/${row?.id}`}>
-      <PencilFill width={20} height={20} />
-    </a>
+    {#if local && finished && edited}
+      <div class="tooltip tooltip-primary" data-tip="Upload">
+        <button class="btn btn-secondary btn-outline border-0 btn-square">
+          <DatabaseFillUp width={20} height={20} />
+        </button>
+      </div>
+    {/if}
   </div>
 </div>
 

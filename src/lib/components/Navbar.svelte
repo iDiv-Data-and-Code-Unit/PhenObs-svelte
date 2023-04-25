@@ -39,7 +39,7 @@
             <li class="lg:hidden" class:active={$page.url.pathname === '/observations'}>
               <a href="/observations">Observations</a>
             </li>
-            <li class="hidden lg:flex z-50">
+            <li class="hidden lg:flex z-30">
               <div
                 class="w-40 justify-center"
                 class:active={$page.url.pathname.includes('/observations')}

@@ -18,21 +18,33 @@
 
 <div class="flex gap-2">
   {#if local}
-    <HddFill
-      width={20}
-      height={20}
-      class={`${uploaded && !edited && finished ? 'text-success' : ''}`}
-    />
+    <div class="tooltip tooltip-primary" data-tip="Stored on device">
+      <HddFill
+        width={20}
+        height={20}
+        class={`${uploaded && !edited && finished ? 'text-success' : ''}`}
+      />
+    </div>
     {#if uploaded}
-      <DatabaseFillCheck width={20} height={20} class="text-success" />
+      <div class="tooltip tooltip-primary" data-tip="Finished and stored in database">
+        <DatabaseFillCheck width={20} height={20} class="text-success" />
+      </div>
     {/if}
     {#if !finished}
-      <ExclamationCircleFill width={20} height={20} class="text-error" />
+      <div class="tooltip tooltip-primary" data-tip="Not finished">
+        <ExclamationCircleFill width={20} height={20} class="text-error" />
+      </div>
     {/if}
   {:else if finished}
-    <DatabaseFillCheck width={20} height={20} class="text-success" />
+    <div class="tooltip tooltip-primary" data-tip="Stored in database">
+      <DatabaseFillCheck width={20} height={20} class="text-success" />
+    </div>
   {:else}
-    <DatabaseFill width={20} height={20} />
-    <ExclamationCircleFill width={20} height={20} class="text-error" />
+    <div class="tooltip tooltip-primary" data-tip="Stored in database">
+      <DatabaseFill width={20} height={20} />
+    </div>
+    <div class="tooltip tooltip-primary" data-tip="Not finished">
+      <ExclamationCircleFill width={20} height={20} class="text-error" />
+    </div>
   {/if}
 </div>

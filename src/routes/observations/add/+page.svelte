@@ -7,7 +7,7 @@
 
   import userStore from '$lib/shared/user';
   import collectionsStore from '$lib/shared/collections';
-  import { dateChangeHandler, getCollection } from '$lib/shared/app';
+  import { dateChangeHandler, getCollection, loading } from '$lib/shared/app';
   import type { StoredCollectionType } from '$lib/types';
 
   let height: number;
@@ -25,6 +25,8 @@
   };
 
   const createCollection = async (garden: number) => {
+    loading.set(true);
+
     const data = new FormData();
     data.append('garden', garden.toString());
     data.append('creator', $userStore ? $userStore.id.toString() : '');
@@ -52,6 +54,8 @@
     if (collection && collection['prev_collection'] !== null) {
       previousCollection = await getCollection(collection['prev_collection']);
     }
+
+    loading.set(false);
   };
 
   const dateChangeHandlerMiddleware = async (e: CustomEvent<Date>) => {

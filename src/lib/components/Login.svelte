@@ -2,6 +2,7 @@
   import { goto } from '$app/navigation';
   import gardens from '$lib/shared/gardens';
   import user from '$lib/shared/user';
+  import {loading} from '$lib/shared/app';
   import imgTransparent from '$lib/assets/PhenObs_Logo_Transparent.png';
   import imgWhite from '$lib/assets/PhenObs_Logo_Transparent_White.png';
 
@@ -10,6 +11,8 @@
   export let displayLogin;
 
   async function login() {
+    loading.set(true);
+
     try {
       const response = await fetch('http://127.0.0.1:8000/auth/login/', {
         method: 'POST',
@@ -37,7 +40,7 @@
             main_garden: json.main_garden,
             subgardens: json.subgardens
           });
-          
+
           user.set(json.user);
         } else {
           gardens.logout();
@@ -54,6 +57,8 @@
       gardens.logout();
       user.logout();
     }
+    
+    loading.set(false);
   }
 </script>
 
@@ -67,6 +72,7 @@
       <div class="card w-full max-w-sm shadow-2xl bg-white/5">
         <div class="card-body">
           <div class="form-control w-64 md:w-72 lg:w-80">
+            <!-- svelte-ignore a11y-label-has-associated-control -->
             <label class="label">
               <span class="label-text">Username</span>
             </label>
@@ -80,6 +86,7 @@
             />
           </div>
           <div class="form-control w-64 md:w-72 lg:w-80">
+            <!-- svelte-ignore a11y-label-has-associated-control -->
             <label class="label">
               <span class="label-text">Password</span>
             </label>

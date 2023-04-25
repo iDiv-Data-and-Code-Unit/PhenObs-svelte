@@ -1,5 +1,13 @@
+import { writable } from 'svelte/store';
 import type { CollectionType, RecordType, StoredCollectionType } from '$lib/types';
 import collectionsStore from '$lib/shared/collections';
+
+/**
+ * Store for displaying spinner during fetch requests.
+ * @type {Writable<boolean>}
+ * @default false
+ */
+export const loading = writable(false);
 
 /**
  * Returns a formatted string of a date object.
@@ -25,6 +33,8 @@ export const formatDate = (dateToFormat: Date, includeYear = true): string => {
  * @returns {StoredCollectionType|null} - Fetched collection or `null` if the collection does not exist.
  */
 export const getCollection = async (id: number) => {
+  loading.set(true);
+
   let col: StoredCollectionType | null = collectionsStore.exists(id);
 
   if (!col || !('records' in col && col)) {
@@ -40,11 +50,14 @@ export const getCollection = async (id: number) => {
     }
   }
 
+  loading.set(false);
+
   return collectionsStore.exists(id);
 };
 
 /**
  * Determines if a record is considered "done" based on certain criteria.
+ *
  * @param {RecordType} record - The record to check.
  * @returns {boolean} - True if the record meets the criteria, false otherwise.
  */
@@ -70,6 +83,8 @@ export const dateChangeHandler = async (
   previousCollection: StoredCollectionType | null
 ) => {
   if (collection) {
+    loading.set(true);
+
     collection.date = e.detail.toISOString().split('T')[0];
     collectionsStore.edit(collection);
 
@@ -93,6 +108,8 @@ export const dateChangeHandler = async (
       console.log('Error', res);
     }
   }
+
+  loading.set(false);
 
   return [collection, previousCollection];
 };

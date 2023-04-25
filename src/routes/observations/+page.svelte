@@ -6,8 +6,9 @@
   import CollapseHeader from '$lib/components/observations/table/CollapseHeader.svelte';
   import collectionsStore from '$lib/shared/collections';
   import gardensStore from '$lib/shared/gardens';
+  import { loading } from '$lib/shared/app';
 
-  let loading = false;
+  let showSpinner = false;
   const gardens = $gardensStore?.subgardens?.map((val) => val.id);
 
   let saved = writable<StoredCollectionType[] | CollectionType[]>(
@@ -27,7 +28,8 @@
   });
 
   const getCollections = async () => {
-    loading = true;
+    showSpinner = true;
+    loading.set(true);
 
     const request = await fetch('http://127.0.0.1:8000/observations/?thin', {
       credentials: 'include'
@@ -62,12 +64,13 @@
       }
     }
 
-    loading = false;
+    showSpinner = false;
+    loading.set(false);
   };
 </script>
 
 <div class="container rounded-lg mt-5 shadow-lg md:p-10 p-5 dark:bg-slate-800">
-  <TableHeader on:click={getCollections} bind:loading />
+  <TableHeader on:click={getCollections} bind:showSpinner />
   <div class="md:mt-10 sm:mt-5" />
   <CollapseHeader title="Not saved"><Table name="notsaved" store={notsaved} /></CollapseHeader>
   <CollapseHeader title="Saved"><Table name="saved" store={saved} /></CollapseHeader>
