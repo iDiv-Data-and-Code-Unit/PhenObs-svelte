@@ -5,16 +5,19 @@
   import Intensity from './Intensity.svelte';
   import Multiselect from './Multiselect.svelte';
   import Toggle from './Toggle.svelte';
-  import { isDone, toCamelCase } from '$lib/shared/app';
+  import { isDone, toCamelCase, uploadCollection } from '$lib/shared/app';
   import type { RecordType } from '$lib/types';
   import collectionsStore from '$lib/shared/collections';
   import { fields } from '$lib/shared/app';
   import Remarks from './Remarks.svelte';
+  import { createEventDispatcher } from 'svelte';
 
   export let done: number;
   export let count: number;
   export let record: RecordType;
   export let previousRecord: RecordType | null;
+
+  const dispatch = createEventDispatcher();
 
   const updateRecord = (
     e: CustomEvent<{
@@ -73,10 +76,12 @@
 <Toggle key={'no_observation'} checked={noObservation} on:toggle={updateRecord} />
 
 <div class="flex justify-end gap-3 mt-5">
-  <button class="btn btn-error md:text-xl lg:text-2xl md:p-12  text-lg py-8 content-center"
-    >Cancel</button
+  <a
+    href="/observations"
+    class="btn btn-error md:text-xl lg:text-2xl md:p-12  text-lg py-8 content-center">Cancel</a
   >
   <button
+    on:click={() => dispatch('upload')}
     class="btn btn-secondary md:text-xl lg:text-2xl md:p-12 text-lg p-6 py-8 content-center w-max grow md:grow-0"
     class:btn-disabled={done !== count}>Done {done}/{count}</button
   >

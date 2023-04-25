@@ -1,13 +1,70 @@
 import { writable } from 'svelte/store';
-import type { CollectionType, RecordType, StoredCollectionType } from '$lib/types';
+import type {
+  CollectionType,
+  RecordType,
+  ServerCollectionType,
+  ServerRecordType,
+  StoredCollectionType
+} from '$lib/types';
 import collectionsStore from '$lib/shared/collections';
 
 /**
- * Store for displaying spinner during fetch requests.
+ * Store for displaying loading indicator during fetch requests.
+ *
  * @type {Writable<boolean>}
  * @default false
  */
 export const loading = writable(false);
+
+/**
+ * Deletes redundant properties from a collection object to prepare it for uploading to the server.
+ * @param {ServerCollectionType} collection - The collection to prepare casted as ServerCollectionType.
+ * @returns {ServerCollectionType} - The prepared collection.
+ */
+export const toServerCollectionType = (collection: ServerCollectionType) => {
+  'edited' in collection && delete collection.edited;
+  'uploaded' in collection && delete collection.uploaded;
+  'creator_username' in collection && delete collection.creator_username;
+  'doy' in collection && delete collection.doy;
+  'subgarden_name' in collection && delete collection.subgarden_name;
+  'main_garden_name' in collection && delete collection.main_garden_name;
+  'prev_collection' in collection && delete collection.prev_collection;
+
+  collection.records.forEach((record: ServerRecordType) => {
+    'plant_name' in record && delete record.plant_name;
+    'timestamp_edit' in record && delete record.timestamp_edit;
+    'timestamp_entry' in record && delete record.timestamp_entry;
+  });
+
+  return collection;
+};
+
+/**
+ * Function for uploading and updating the collection on server.
+ *
+ * @param {StoredCollectionType} collection - The collection to upload.
+ */
+export const uploadCollection = async (collection: CollectionType) => {
+  loading.set(true);
+
+  const res = await fetch('/observations/', {
+    method: 'PUT',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(toServerCollectionType(collection))
+  });
+
+  if (res.ok) {
+    const json = await res.json();
+    collectionsStore.updateUploadedCollection(json);
+  } else {
+    console.log('Error', res);
+  }
+
+  loading.set(false);
+};
 
 /**
  * Returns a formatted string of a date object.

@@ -17,6 +17,23 @@ const collectionsStore = {
     window.localStorage.setItem('collections', JSON.stringify(data));
   },
   update: collections.update,
+  updateUploadedCollection: (data: StoredCollectionType) => {
+    let done = false;
+
+    collections.update((values) => {
+      const index = values.findIndex((item) => item.id === data.id);
+      if (index !== -1) {
+        values[index] = data;
+        values[index].edited = false;
+        values[index].uploaded = true;
+        done = true;
+      }
+      window.localStorage.setItem('collections', JSON.stringify(values));
+      return values;
+    });
+
+    return done;
+  },
   edit: (data: StoredCollectionType) => {
     let done = false;
     collections.update((values) => {

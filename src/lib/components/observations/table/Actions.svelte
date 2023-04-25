@@ -4,6 +4,7 @@
   import Modal from '$lib/components/Modal.svelte';
   import collectionsStore from '$lib/shared/collections';
   import type { CollectionType } from '$lib/types';
+  import { uploadCollection } from '$lib/shared/app';
 
   export let row: CollectionType | null;
   const { finished } = row as CollectionType;
@@ -19,6 +20,10 @@
   const deleteStoredCollection = () => {
     collectionsStore.remove(row?.id as number);
     displayModal = false;
+  };
+
+  const uploadStoredCollection = () => {
+    uploadCollection(row as CollectionType);
   };
 </script>
 
@@ -48,7 +53,7 @@
   <div class="btn-square">
     {#if local && finished && edited}
       <div class="tooltip tooltip-primary" data-tip="Upload">
-        <button class="btn btn-secondary btn-outline border-0 btn-square">
+        <button class="btn btn-secondary btn-outline border-0 btn-square" on:click={uploadStoredCollection}>
           <DatabaseFillUp width={20} height={20} />
         </button>
       </div>

@@ -1,9 +1,7 @@
-export interface RecordType {
+export interface ServerRecordType {
   [key: string]: string | number | string[] | null | boolean;
   id: number;
   maintenance: string[];
-  timestamp_entry: string;
-  timestamp_edit: string;
   initial_vegetative_growth: string;
   young_leaves_unfolding: string;
   flowers_open: string;
@@ -18,16 +16,26 @@ export interface RecordType {
   done: boolean;
   collection: number;
   plant: number;
+  order: number;
   editor: number;
+}
+
+export interface RecordType extends ServerRecordType {
+  timestamp_entry: string;
+  timestamp_edit: string;
   plant_name: string;
 }
 
-export interface ThinCollectionType {
+export interface ServerCollectionType {
   id: number;
   date: string;
   creator: number;
   garden: number;
   finished: boolean;
+  records: RecordType[];
+}
+
+export interface ThinCollectionType extends Omit<ServerCollectionType, 'records'> {
   doy: number;
   creator_username: string;
   subgarden_name: string;

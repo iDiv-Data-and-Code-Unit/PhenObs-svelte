@@ -5,7 +5,7 @@
   import PlantsDropdown from './PlantsDropdown.svelte';
   import ObservationFormRow from './ObservationFormRow.svelte';
   import ObservationInputs from './ObservationInputs.svelte';
-  import { formatDate } from '$lib/shared/app';
+  import { formatDate, uploadCollection } from '$lib/shared/app';
   import collectionsStore from '$lib/shared/collections';
 
   export let collection: StoredCollectionType;
@@ -48,7 +48,7 @@
     noObservation = record?.no_observation ?? noObservation;
   });
 
-  $: if (count === done) {
+  $: if (!collection.finished && count === done) {
     collection.finished = true;
     collectionsStore.edit(collection);
   }
@@ -77,7 +77,13 @@
   </ObservationFormRow>
 
   {#if record !== undefined}
-    <ObservationInputs {record} {previousRecord} {done} {count} />
+    <ObservationInputs
+      {record}
+      {previousRecord}
+      {done}
+      {count}
+      on:upload={() => uploadCollection(collection)}
+    />
   {:else}
     <p class="flex w-full h-full justify-center my-10">...</p>
   {/if}

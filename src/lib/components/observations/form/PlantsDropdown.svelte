@@ -58,9 +58,9 @@
     selectedPlantIndex = select.selectedIndex;
     selectedPlant = parseInt(select.value);
 
-    record = records.find((item) => item.plant === selectedPlant);
+    record = records.find((item) => item.id === selectedPlant);
     previousRecord = previousRecords
-      ? previousRecords.find((item) => item.plant === selectedPlant) ?? null
+      ? previousRecords.find((item) => item.id === selectedPlant) ?? null
       : null;
   };
 
@@ -68,11 +68,11 @@
     let sortedRecords;
 
     if (sortNumeric) {
-      sortedRecords = records.sort((a, b) => a.plant - b.plant);
-      selectedPlantIndex = sortedRecords.findIndex((item) => item.plant === selectedPlant);
+      sortedRecords = records.sort((a, b) => a.order - b.order);
+      selectedPlantIndex = sortedRecords.findIndex((item) => item.id === selectedPlant);
     } else {
       sortedRecords = records.sort((a, b) => a.plant_name.localeCompare(b.plant_name));
-      selectedPlantIndex = sortedRecords.findIndex((item) => item.plant === selectedPlant);
+      selectedPlantIndex = sortedRecords.findIndex((item) => item.id === selectedPlant);
     }
 
     return sortedRecords;
@@ -136,8 +136,8 @@
       on:change={changeHandler}
     >
       <option disabled selected value />
-      {#each sorted as { plant, plant_name, done } (plant)}
-        <option class="flex gap-1 h-20" value={plant}>
+      {#each sorted as { id, plant_name, done } (id)}
+        <option class="flex gap-1 h-20" value={id}>
           {done ? '✓' : ''}
           {plant_name}
         </option>
