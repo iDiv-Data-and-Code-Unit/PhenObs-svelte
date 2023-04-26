@@ -1,4 +1,6 @@
 import { writable } from 'svelte/store';
+
+import collectionsStore from '$lib/shared/collections';
 import type {
   CollectionType,
   RecordType,
@@ -6,7 +8,6 @@ import type {
   ServerRecordType,
   StoredCollectionType
 } from '$lib/types';
-import collectionsStore from '$lib/shared/collections';
 
 /**
  * Store for displaying loading indicator during fetch requests.
@@ -220,8 +221,8 @@ export const mapped: { [key: string]: string } = {
  * @param {string} type - The type of the button. Is one of ['group', 'multiselect', 'intensity', 'textarea'].
  * @returns {string | number} - The mapped value of the button.
  */
-export const getButtonValue = (value: string | number | string[], type: string) => {
-  return type === 'group' ? mapped[value as string] : value === null ? 0 : value;
+export const getButtonValue = (value: string | number | string[] | null, type: string) => {
+  return type === 'group' ? mapped[value as string] : value;
 };
 
 /**

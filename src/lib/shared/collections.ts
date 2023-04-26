@@ -1,6 +1,6 @@
+import { browser } from '$app/environment';
 import { writable } from 'svelte/store';
 
-import { browser } from '$app/environment';
 import type { CollectionType, RecordType, StoredCollectionType } from '$lib/types';
 
 const defaultValue: StoredCollectionType[] = [];

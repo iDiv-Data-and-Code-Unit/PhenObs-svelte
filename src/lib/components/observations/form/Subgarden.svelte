@@ -1,6 +1,7 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte';
   import { ChevronDown, Plus, HddFill } from 'svelte-bootstrap-icons';
+
   import gardensStore from '$lib/shared/gardens';
   import type { GardenType, StoredCollectionType } from '$lib/types';
 

@@ -1,8 +1,7 @@
 <script lang="ts">
-  import { ListNested, ChevronDown } from 'svelte-bootstrap-icons';
-
   import { page } from '$app/stores';
   import { slide } from 'svelte/transition';
+  import { ListNested, ChevronDown } from 'svelte-bootstrap-icons';
 
   export let status = true;
   let toggleDropdown = false;
@@ -14,6 +13,9 @@
   <div class="p-1">
     <div class="justify-between flex w-full">
       <div class="dropdown md:hidden">
+        <!-- svelte-ignore a11y-click-events-have-key-events -->
+        <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
+        <!-- svelte-ignore a11y-label-has-associated-control -->
         <label
           tabindex="0"
           class="btn btn-ghost md:hidden"

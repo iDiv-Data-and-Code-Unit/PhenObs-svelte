@@ -1,6 +1,7 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte';
   import { Calendar2Fill } from 'svelte-bootstrap-icons';
+  
   import { formatDate } from '$lib/shared/app';
 
   export let date: Date = new Date();

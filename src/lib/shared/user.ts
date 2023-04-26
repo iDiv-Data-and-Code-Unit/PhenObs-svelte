@@ -1,5 +1,6 @@
-import { writable } from 'svelte/store';
 import { browser } from '$app/environment';
+import { writable } from 'svelte/store';
+
 import type { UserType } from '$lib/types';
 
 const defaultValue: UserType | null = null;

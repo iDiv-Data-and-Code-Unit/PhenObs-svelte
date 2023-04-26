@@ -1,16 +1,17 @@
 <script lang="ts">
+  import { createEventDispatcher } from 'svelte';
+
   import ObservationFormRow from './ObservationFormRow.svelte';
   import OlderDataButton from './OlderDataButton.svelte';
   import ButtonGroup from './ButtonGroup.svelte';
   import Intensity from './Intensity.svelte';
   import Multiselect from './Multiselect.svelte';
   import Toggle from './Toggle.svelte';
-  import { isDone, toCamelCase, uploadCollection } from '$lib/shared/app';
-  import type { RecordType } from '$lib/types';
-  import collectionsStore from '$lib/shared/collections';
-  import { fields } from '$lib/shared/app';
   import Remarks from './Remarks.svelte';
-  import { createEventDispatcher } from 'svelte';
+  
+  import collectionsStore from '$lib/shared/collections';
+  import { isDone, toCamelCase, fields } from '$lib/shared/app';
+  import type { RecordType } from '$lib/types';
 
   export let done: number;
   export let count: number;

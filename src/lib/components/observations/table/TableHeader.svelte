@@ -1,5 +1,6 @@
 <script lang="ts">
   import { DatabaseFill, PlusCircleFill } from 'svelte-bootstrap-icons';
+  
   import gardens from '$lib/shared/gardens';
 
   export let showSpinner = false;

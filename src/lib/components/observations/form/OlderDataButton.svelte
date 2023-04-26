@@ -1,9 +1,11 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte';
+
   import ButtonGroup from './ButtonGroup.svelte';
   import Intensity from './Intensity.svelte';
   import Multiselect from './Multiselect.svelte';
   import Remarks from './Remarks.svelte';
+
   import { formatDate, getButtonValue } from '$lib/shared/app';
   import type { RecordType } from '$lib/types';
 
@@ -12,15 +14,15 @@
   export let name: string;
   export let type: string;
   export let disabled: boolean;
-  let value: string | number | string[] = record[key] as string | number;
+  let value: string | number | string[] | null = record[key] as string | number;
   let display = false;
 
   const dispatch = createEventDispatcher<{
-    save: { value: string | number | string[]; key: string; previous: boolean };
+    save: { value: string | number | string[] | null; key: string; previous: boolean };
   }>();
 
   const updateValue = (
-    e: CustomEvent<{ value: string | number | string[]; key: string; previous: boolean }>
+    e: CustomEvent<{ value: string | number | string[] | null; key: string; previous: boolean }>
   ) => {
     value = getButtonValue(e.detail.value, type);
   };

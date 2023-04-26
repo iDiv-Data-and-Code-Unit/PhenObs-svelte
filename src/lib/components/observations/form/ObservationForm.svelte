@@ -1,12 +1,13 @@
 <script lang="ts">
   import { Files } from 'svelte-bootstrap-icons';
 
-  import type { RecordType, StoredCollectionType } from '$lib/types';
   import PlantsDropdown from './PlantsDropdown.svelte';
   import ObservationFormRow from './ObservationFormRow.svelte';
   import ObservationInputs from './ObservationInputs.svelte';
+
   import { formatDate, uploadCollection } from '$lib/shared/app';
   import collectionsStore from '$lib/shared/collections';
+  import type { RecordType, StoredCollectionType } from '$lib/types';
 
   export let collection: StoredCollectionType;
   export let previousCollection: StoredCollectionType | null;

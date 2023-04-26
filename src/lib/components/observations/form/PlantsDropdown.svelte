@@ -1,10 +1,11 @@
 <script lang="ts">
   import { SortAlphaDown, SortNumericDown, ChevronDown } from 'svelte-bootstrap-icons';
 
-  import type { RecordType } from '$lib/types';
   import Modal from '$lib/components/Modal.svelte';
-  import collectionsStore from '$lib/shared/collections';
   import Alert from '$lib/components/Alert.svelte';
+
+  import collectionsStore from '$lib/shared/collections';
+  import type { RecordType } from '$lib/types';
 
   export let record: RecordType | undefined;
   export let records: RecordType[];
@@ -79,7 +80,7 @@
   };
 
   $: sorted = records && getSorted();
-  $: selectedPlantName = record !== undefined ? ((record.done ? '✓ ' : '') + record.plant_name) : '';
+  $: selectedPlantName = record !== undefined ? (record.done ? '✓ ' : '') + record.plant_name : '';
   $: if (selectedPlantIndex === -1) {
     if (select) {
       select.selectedIndex = 0;

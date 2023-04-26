@@ -2,6 +2,7 @@
   import { createEventDispatcher } from 'svelte';
   import { scale } from 'svelte/transition';
   import { Circle, RecordCircle } from 'svelte-bootstrap-icons';
+  
   import { choices, mapped } from '$lib/shared/app';
   import type { RecordType } from '$lib/types';
 

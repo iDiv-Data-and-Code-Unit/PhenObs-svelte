@@ -1,10 +1,11 @@
 <script lang="ts">
   import { goto } from '$app/navigation';
-  import gardens from '$lib/shared/gardens';
-  import user from '$lib/shared/user';
-  import {loading} from '$lib/shared/app';
+
   import imgTransparent from '$lib/assets/PhenObs_Logo_Transparent.png';
   import imgWhite from '$lib/assets/PhenObs_Logo_Transparent_White.png';
+  import gardens from '$lib/shared/gardens';
+  import user from '$lib/shared/user';
+  import { loading } from '$lib/shared/app';
 
   let username: string = 'user';
   let password: string = 'QazxswedC123!';
@@ -57,7 +58,7 @@
       gardens.logout();
       user.logout();
     }
-    
+
     loading.set(false);
   }
 </script>

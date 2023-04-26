@@ -1,5 +1,6 @@
 <script lang="ts">
   import { toCamelCase } from '$lib/shared/app';
+  
   export let label: string;
 </script>
 

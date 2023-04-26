@@ -1,5 +1,6 @@
-import { writable } from 'svelte/store';
 import { browser } from '$app/environment';
+import { writable } from 'svelte/store';
+
 import type { GardensType, GardenType } from '$lib/types';
 
 const defaultValue: GardensType | null = null;

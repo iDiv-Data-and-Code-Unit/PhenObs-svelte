@@ -1,7 +1,8 @@
 <script lang="ts">
-  import type { RecordType } from '$lib/types';
   import { createEventDispatcher } from 'svelte';
   import { scale } from 'svelte/transition';
+
+  import type { RecordType } from '$lib/types';
 
   export let record: RecordType;
   export let key: string;

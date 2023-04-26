@@ -1,12 +1,14 @@
 <script lang="ts">
   import { writable } from 'svelte/store';
-  import type { CollectionType, StoredCollectionType } from '$lib/types';
+
   import Table from '$lib/components/observations/table/Table.svelte';
   import TableHeader from '$lib/components/observations/table/TableHeader.svelte';
   import CollapseHeader from '$lib/components/observations/table/CollapseHeader.svelte';
+
   import collectionsStore from '$lib/shared/collections';
   import gardensStore from '$lib/shared/gardens';
   import { loading } from '$lib/shared/app';
+  import type { CollectionType, StoredCollectionType } from '$lib/types';
 
   let showSpinner = false;
   const gardens = $gardensStore?.subgardens?.map((val) => val.id);

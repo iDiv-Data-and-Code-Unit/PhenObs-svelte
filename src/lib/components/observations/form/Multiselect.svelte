@@ -1,10 +1,11 @@
 <script lang="ts">
-  import { scale } from 'svelte/transition';
-  import { toSnakeCase } from '$lib/shared/app';
-  import type { RecordType } from '$lib/types';
   import { createEventDispatcher } from 'svelte';
+  import { scale } from 'svelte/transition';
 
   import MultiselectButton from './MultiselectButton.svelte';
+
+  import { toSnakeCase } from '$lib/shared/app';
+  import type { RecordType } from '$lib/types';
 
   export let record: RecordType;
   export let key: string;

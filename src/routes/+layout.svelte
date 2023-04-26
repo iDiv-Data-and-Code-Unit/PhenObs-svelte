@@ -1,10 +1,11 @@
 <script lang="ts">
-  import '$lib/global.css';
   import { page } from '$app/stores';
   import { onMount } from 'svelte';
 
   import Navbar from '$lib/components/Navbar.svelte';
   import Login from '$lib/components/Login.svelte';
+
+  import '$lib/global.css';
   import gardens from '$lib/shared/gardens';
   import user from '$lib/shared/user';
   import { loading } from '$lib/shared/app';
@@ -43,7 +44,6 @@
     <progress class="progress w-56" />
   </div>
 {/if}
-
 
 {#if displayLogin}
   <Login bind:displayLogin />

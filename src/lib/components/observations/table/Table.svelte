@@ -1,11 +1,13 @@
 <script lang="ts">
   import { createTable, Subscribe, Render, createRender } from 'svelte-headless-table';
   import { addSortBy, addExpandedRows, addPagination } from 'svelte-headless-table/plugins';
+  import type { Writable } from 'svelte/store';
+
   import Status from './Status.svelte';
   import Actions from './Actions.svelte';
+
   import { formatDate } from '$lib/shared/app';
   import type { CollectionType, StoredCollectionType } from '$lib/types';
-  import type { Writable } from 'svelte/store';
 
   export let name: string;
   export let store: Writable<CollectionType[] | StoredCollectionType[]>;
