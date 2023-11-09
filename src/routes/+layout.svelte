@@ -1,41 +1,13 @@
 <script lang="ts">
   import { page } from '$app/stores';
-  import { onMount } from 'svelte';
-
-  import Navbar from '$lib/components/Navbar.svelte';
-  import Login from '$lib/components/Login.svelte';
 
   import '$lib/global.css';
-  import gardens from '$lib/shared/gardens';
-  import user from '$lib/shared/user';
   import { loading } from '$lib/shared/app';
+  import Navbar from '$lib/components/Navbar.svelte';
+
+  export let data;
 
   let status: boolean;
-  let displayLogin = false;
-
-  onMount(async () => {
-    loading.set(true);
-
-    try {
-      const res = await fetch('http://127.0.0.1:8000/auth/user/', {
-        credentials: 'include'
-      });
-      displayLogin = !res.ok;
-
-      if (!res.ok) {
-        gardens.logout();
-        user.logout();
-      }
-    } catch (error) {
-      console.log(error);
-      displayLogin = true;
-
-      gardens.logout();
-      user.logout();
-    }
-
-    loading.set(false);
-  });
 </script>
 
 <svelte:window bind:online={status} />
@@ -45,19 +17,17 @@
   </div>
 {/if}
 
-{#if displayLogin}
-  <Login bind:displayLogin />
-{:else}
-  <div class="container mx-auto h-screen">
-    <div class="sm:p-5 p-2.5">
+<div class="container mx-auto h-screen flex flex-col items-center">
+  <div class="sm:p-5 p-2.5 grow w-full">
+    {#if data.user.isAuthenticated}
       <Navbar {status} />
-      <slot />
-    </div>
-    {#if $page.url.pathname !== '/imprint'}
-      <div class="justify-center flex py-10"><a href="/imprint">Imprint</a></div>
     {/if}
+    <slot />
   </div>
-{/if}
+  {#if $page.url.pathname !== '/imprint'}
+    <div class="justify-center flex py-10"><a href="/imprint">Imprint</a></div>
+  {/if}
+</div>
 
 <svelte:head>
   <title>PhenObs</title>

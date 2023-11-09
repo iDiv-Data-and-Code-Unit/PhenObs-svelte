@@ -64,6 +64,7 @@ export interface GardenType {
 }
 
 export interface GardensType {
+  userSubgarden: number;
   main_garden: GardenType;
   subgardens: GardenType[];
 }

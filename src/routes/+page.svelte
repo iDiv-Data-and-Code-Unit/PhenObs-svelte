@@ -1,20 +1,16 @@
 <script lang="ts">
   import { ListCheck, PlusCircleFill } from 'svelte-bootstrap-icons';
 
-  import gardens from '$lib/shared/gardens';
-  import user from '$lib/shared/user';
   import { formatDate } from '$lib/shared/app';
   import type { GardenType } from '$lib/types';
 
-  let subgarden: GardenType | null = null;
-  let subgardenName: string | null = null;
-  let main_garden: string | null = null;
+  export let data;
 
-  if ($user && $gardens) {
-    main_garden = $gardens.main_garden.name;
-    subgarden = gardens.get($user.subgarden);
-    subgardenName = subgarden !== null ? (subgarden as GardenType).name : '';
-  }
+  const main_garden = data.gardens.main_garden.name;
+  const subgarden = data.gardens.userSubgarden;
+  const subgardenName = data.gardens.subgardens.find(
+    (val: GardenType) => val.id === subgarden
+  )?.name;
 </script>
 
 <div
@@ -29,7 +25,7 @@
       {formatDate(new Date())}
     </h2>
     <div class="card-actions justify-end">
-      <h3 class="xl:text-6xl lg:text-5xl md:text-4xl sm:text-3xl text-2xl">{$user?.username}</h3>
+      <h3 class="xl:text-6xl lg:text-5xl md:text-4xl sm:text-3xl text-2xl">{data.user.username}</h3>
     </div>
   </div>
 </div>
